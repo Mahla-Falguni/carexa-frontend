@@ -4,6 +4,8 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -15,8 +17,9 @@ const Login = () => {
 
   const handleLogin = async () => {
     setLoading(true);
+
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post(`${backendUrl}/api/login`, {
         patient_email: email,
         patient_pass: password,
       });
@@ -33,14 +36,23 @@ const Login = () => {
           showConfirmButton: false,
         });
 
-        const redirect = searchParams.get("redirect");         
+        const redirect = searchParams.get("redirect");
         navigate(redirect || "/UserDashboard");
       }
     } catch (error) {
+      console.error(error);
+
       let message = "Login failed";
-      if (error.response && error.response.data.Message)
+
+      if (error.response?.data?.Message) {
         message = error.response.data.Message;
-      Swal.fire({ icon: "error", title: "Login Failed", text: message });
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: message,
+      });
     } finally {
       setLoading(false);
     }
