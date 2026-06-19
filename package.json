@@ -12,7 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.2.0",
     "audit": "^0.0.6",
-    "axios": "^1.17.0",
+    "axios": "^1.18.0",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "npm": "^11.16.0",
