@@ -22,10 +22,7 @@ const Register = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            axios.post(
-                `${import.meta.env.VITE_API_URL}/api/register`,
-                formData
-            )
+            await axios.post("http://localhost:5000/api/register", formData)
             Swal.fire({
                 icon: "success",
                 title: "Registration Successful",
