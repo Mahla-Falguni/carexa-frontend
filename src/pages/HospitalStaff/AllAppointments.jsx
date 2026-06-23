@@ -100,7 +100,7 @@ const AllAppointments = () => {
         if (!confirm.isConfirmed) return;
         setCompleting(appt._id);
         try {
-            await axios.patch(`http://localhost:5000/staffapi/appointment/complete/${appt._id}`, {}, { headers });
+            await axios.patch(`https://carexa-backend.vercel.app/staffapi/appointment/complete/${appt._id}`, {}, { headers });
             Swal.fire({ icon: "success", title: "Marked Complete!", timer: 1500, showConfirmButton: false });
             fetchData();
         } catch (err) {
