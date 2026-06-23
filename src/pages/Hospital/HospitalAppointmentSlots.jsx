@@ -26,7 +26,7 @@ const AppointmentSlots = () => {
     const getSlots = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-appointment-slots",
+                "https://carexa-backend.vercel.app/hospitalapi/get-appointment-slots",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setSlots(res.data.slots || []);

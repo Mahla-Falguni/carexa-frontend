@@ -24,7 +24,7 @@ const RescheduleRequests = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/reschedule-request",
+                "https://carexa-backend.vercel.app/hospitalapi/reschedule-request",
                 { headers }
             );
             setRequests(res.data.rescheduleRequests || []);

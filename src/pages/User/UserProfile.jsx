@@ -36,7 +36,7 @@ const UserProfile = () => {
     const fetchProfile = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/get-profile", { headers });
+            const res = await axios.get("https://carexa-backend.vercel.app/api/get-profile", { headers });
             const u = res.data.user;
             setUser(u);
             setForm({

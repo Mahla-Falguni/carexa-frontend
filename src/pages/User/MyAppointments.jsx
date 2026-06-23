@@ -43,7 +43,7 @@ const RescheduleModal = ({ appt, onClose, onConfirm }) => {
     useEffect(() => {
         if (!selectedDate || !appt?.doctor_id?._id) return;
         setSlots([]); setSelectedSlot(null); setLoadingSlots(true);
-        axios.get(`http://localhost:5000/api/available-slots`, {
+        axios.get(`https://carexa-backend.vercel.app/api/available-slots`, {
             params: { doctorId: appt.doctor_id._id, date: formatDateKey(selectedDate) }, headers,
         }).then(res => setSlots(res.data.slots || [])).catch(() => setSlots([])).finally(() => setLoadingSlots(false));
     }, [selectedDate]);

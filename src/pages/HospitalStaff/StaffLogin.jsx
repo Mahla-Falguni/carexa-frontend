@@ -52,7 +52,7 @@ const StaffLogin = () => {
         if (!email || !password) return setError("Please enter your email and password.");
         setLoading(true);
         try {
-            const res = await axios.post("http://localhost:5000/staffapi/staff-login", { email, password });
+            const res = await axios.post("https://carexa-backend.vercel.app/staffapi/staff-login", { email, password });
             const data = res.data;
 
             // ── First time — no password set yet ──

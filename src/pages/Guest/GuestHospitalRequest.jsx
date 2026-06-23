@@ -48,7 +48,7 @@ const GuestHospitalRequest = () => {
             if (hospitalImg) data.append("hospital_img", hospitalImg);
 
             const res = await axios.post(
-                "http://localhost:5000/guestapi/hospital-request",
+                "https://carexa-backend.vercel.app/guestapi/hospital-request",
                 data
             );
 

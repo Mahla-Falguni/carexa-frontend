@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const BASE = "http://localhost:5000/api";
+const BASE = "https://carexa-backend.vercel.app/api";
 
 const ResetPassword = () => {
     const { token }    = useParams();

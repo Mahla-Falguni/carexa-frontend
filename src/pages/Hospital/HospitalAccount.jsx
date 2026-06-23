@@ -39,7 +39,7 @@ const HospitalAccount = () => {
     const fetchProfile = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-hospital-profile",
+                "https://carexa-backend.vercel.app/hospitalapi/get-hospital-profile",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             const h = res.data.hospital;

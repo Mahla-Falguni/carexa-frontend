@@ -15,7 +15,7 @@ const AvailableDoctors = () => {
         try {
             const token = localStorage.getItem("HospitalToken");
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-available-doctors",
+                "https://carexa-backend.vercel.app/hospitalapi/get-available-doctors",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setDoctors(res.data.doctors || []);

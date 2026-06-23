@@ -54,7 +54,7 @@ const StaffDashboard = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/staffapi/my-dashboard",
+                "https://carexa-backend.vercel.app/staffapi/my-dashboard",
                 { headers: { Authorization: `Bearer ${localStorage.getItem("StaffToken")}` } }
             );
             const d = res.data;

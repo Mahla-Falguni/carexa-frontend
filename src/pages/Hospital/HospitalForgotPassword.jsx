@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaHospital, FaEnvelope } from "react-icons/fa";
 
-const BASE = "http://localhost:5000/hospitalapi";
+const BASE = "https://carexa-backend.vercel.app/hospitalapi";
 
 const HospitalForgotPassword = () => {
     const [email, setEmail] = useState("");

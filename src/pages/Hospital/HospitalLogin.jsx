@@ -19,7 +19,7 @@ const HospitalLogin = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:5000/hospitalapi/loginHospital",
+                "https://carexa-backend.vercel.app/hospitalapi/loginHospital",
                 { hospital_email, hospital_pass }
             );
 

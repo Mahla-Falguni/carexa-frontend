@@ -10,7 +10,7 @@ import {
 import { MdRefresh } from "react-icons/md";
 import PaymentReceiptModal from "./PaymentReceiptModal";
 
-const BASE = "http://localhost:5000/staffapi";
+const BASE = "https://carexa-backend.vercel.app/staffapi";
 const hdrs = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("StaffToken")}` } });
 
 const fmt     = (d) => d ? new Date(d).toLocaleDateString("en-IN",  { day:"2-digit", month:"short", year:"numeric" }) : "—";

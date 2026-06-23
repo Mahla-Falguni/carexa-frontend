@@ -10,7 +10,7 @@ import {
 import { MdRefresh } from "react-icons/md";
 import PaymentReceiptModal from "../HospitalStaff/PaymentReceiptModal";
 
-const BASE = "http://localhost:5000/hospitalapi";
+const BASE = "https://carexa-backend.vercel.app/hospitalapi";
 const hdrs = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("HospitalToken")}` } });
 
 const fmt = (d) => d ? new Date(d).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "—";

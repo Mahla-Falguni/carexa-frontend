@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaHospital, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
-const BASE = "http://localhost:5000/hospitalapi";
+const BASE = "https://carexa-backend.vercel.app/hospitalapi";
 
 const HospitalResetPassword = () => {
     const { token } = useParams();

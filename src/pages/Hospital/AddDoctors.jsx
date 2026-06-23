@@ -50,7 +50,7 @@ const AddDoctors = () => {
             if (img) data.append("img", img);
 
             const res = await axios.post(
-                "http://localhost:5000/hospitalapi/add-doctor-employee",
+                "https://carexa-backend.vercel.app/hospitalapi/add-doctor-employee",
                 data,
                 {
                     headers: {

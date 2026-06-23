@@ -54,7 +54,7 @@ const HospitalDashboard = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-Dashboard-Status",
+                "https://carexa-backend.vercel.app/hospitalapi/get-Dashboard-Status",
                 { headers }
             );
             const d = res.data;

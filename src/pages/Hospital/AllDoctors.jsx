@@ -31,7 +31,7 @@ const AllDoctors = () => {
     const getAllDoctors = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/getAllDoctors",
+                "https://carexa-backend.vercel.app/hospitalapi/getAllDoctors",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setDoctors(res.data.doctors || []);

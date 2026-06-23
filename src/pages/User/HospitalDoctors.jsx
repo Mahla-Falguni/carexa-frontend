@@ -42,8 +42,8 @@ const HospitalDoctors = () => {
         setLoading(true);
         try {
             const [hosRes, docRes] = await Promise.all([
-                axios.get("http://localhost:5000/api/getHospitals"),
-                axios.get(`http://localhost:5000/api/getDoctors/${hospitalId}`, { headers })
+                axios.get("https://carexa-backend.vercel.app/api/getHospitals"),
+                axios.get(`https://carexa-backend.vercel.app/api/getDoctors/${hospitalId}`, { headers })
             ]);
             const hosp = hosRes.data?.hospitals?.find(h => h._id === hospitalId);
             setHospital(hosp || null);

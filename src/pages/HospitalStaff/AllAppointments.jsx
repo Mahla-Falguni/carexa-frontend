@@ -81,7 +81,7 @@ const AllAppointments = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/staffapi/my-appointments", { headers });
+            const res = await axios.get("https://carexa-backend.vercel.app/staffapi/my-appointments", { headers });
             setAppointments(res.data.appointments || []);
         } catch (err) { console.log(err); }
         finally { setLoading(false); }

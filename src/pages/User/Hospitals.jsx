@@ -29,7 +29,7 @@ const Hospitals = () => {
     try {
       const token = localStorage.getItem("UserToken");
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const res = await axios.get("http://localhost:5000/api/getHospitals", { headers });
+      const res = await axios.get("https://carexa-backend.vercel.app/api/getHospitals", { headers });
       setHospitals(res.data?.hospitals || []);
     } catch (err) {
       setError("Failed to load hospitals. Please try again.");

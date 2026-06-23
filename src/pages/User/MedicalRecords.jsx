@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 
-const BASE    = "http://localhost:5000/api";
+const BASE    = "https://carexa-backend.vercel.app/api";
 const hdrs    = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("UserToken")}` } });
 const ACCENT  = "#2563eb";
 const PER_PAGE = 5;

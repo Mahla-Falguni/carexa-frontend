@@ -57,7 +57,7 @@ const EditSlot = () => {
     const getSlot = async () => {
         try {
             const res = await axios.get(
-                `http://localhost:5000/hospitalapi/get-slot/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/get-slot/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             const slot = res.data.slot;

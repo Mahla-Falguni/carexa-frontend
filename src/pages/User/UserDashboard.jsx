@@ -11,7 +11,7 @@ import {
 import { MdRefresh } from "react-icons/md";
 
 // ─── config ───────────────────────────────────────────────────────────────────
-const BASE = "http://localhost:5000/api";
+const BASE = "https://carexa-backend.vercel.app/api";
 const hdrs = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("UserToken")}` } });
 const fmt  = (d) => d ? new Date(d).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
 

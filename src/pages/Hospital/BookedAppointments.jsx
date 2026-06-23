@@ -18,7 +18,7 @@ const BookedAppointments = () => {
             const token = localStorage.getItem("HospitalToken");
 
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-allbooked-appointments",
+                "https://carexa-backend.vercel.app/hospitalapi/get-allbooked-appointments",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

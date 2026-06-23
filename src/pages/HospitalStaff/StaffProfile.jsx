@@ -7,7 +7,7 @@ import {
     FaLock, FaEye, FaEyeSlash, FaCamera, FaCheckCircle
 } from "react-icons/fa";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://carexa-backend.vercel.app/";
 
 const StaffProfile = () => {
     const [staff,        setStaff]        = useState(null);

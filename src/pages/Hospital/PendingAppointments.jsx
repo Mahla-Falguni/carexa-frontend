@@ -24,7 +24,7 @@ const PendingAppointments = () => {
     const fetchPendingAppointments = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/hospitalapi/get-pending-appointments",
+                "https://carexa-backend.vercel.app/hospitalapi/get-pending-appointments",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setAppointments(res.data.appointments || []);

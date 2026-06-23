@@ -23,8 +23,8 @@ const HospitalPlans = () => {
         else setRefreshing(true);
         try {
             const [plansRes, currentRes] = await Promise.all([
-                axios.get("http://localhost:5000/planapi/get-all-plans",   { headers }),
-                axios.get("http://localhost:5000/hospitalapi/get-my-plan", { headers }),
+                axios.get("https://carexa-backend.vercel.app/planapi/get-all-plans",   { headers }),
+                axios.get("https://carexa-backend.vercel.app/hospitalapi/get-my-plan", { headers }),
             ]);
             const activePlans = (plansRes.data.plans || []).filter(p => p.plan_status === "ACTIVE");
             setPlans(activePlans);

@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 
-const BASE  = "http://localhost:5000/staffapi";
+const BASE  = "https://carexa-backend.vercel.app/staffapi";
 const hdrs  = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("StaffToken")}` } });
 const COLOR = "#2563eb";
 const iCls  = "w-full px-3 py-2.5 rounded-xl text-sm text-slate-700 outline-none placeholder-slate-400 transition";

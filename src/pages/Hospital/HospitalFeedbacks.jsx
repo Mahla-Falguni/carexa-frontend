@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 
-const BASE  = "http://localhost:5000/hospitalapi";
+const BASE  = "https://carexa-backend.vercel.app/hospitalapi";
 const hdrs  = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("HospitalToken")}` } });
 const COLOR = "#2563eb";
 

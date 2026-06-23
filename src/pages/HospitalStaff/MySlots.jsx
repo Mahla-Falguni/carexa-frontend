@@ -8,7 +8,7 @@ import {
 import { MdRefresh } from "react-icons/md";
 import { useOutletContext } from "react-router-dom";
 
-const BASE = "http://localhost:5000/staffapi";
+const BASE = "https://carexa-backend.vercel.app/staffapi";
 const hdrs = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("StaffToken")}` } });
 const COLOR = "#2563eb";
 const PER_PAGE = 5;
