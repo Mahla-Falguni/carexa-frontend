@@ -22,7 +22,8 @@ const Register = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            await axios.post("http://localhost:5000/api/register", formData)
+            await axios.post(
+                "https://carexa-backend.vercel.app/api/register", formData )
             Swal.fire({
                 icon: "success",
                 title: "Registration Successful",

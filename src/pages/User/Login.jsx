@@ -16,10 +16,12 @@ const Login = () => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        patient_email: email,
-        patient_pass: password,
-      });
+      const response = await axios.post("https://carexa-backend.vercel.app/api/login",
+        {
+          patient_email: email,
+          patient_pass: password
+        }
+      )
 
       if (response.data.Token) {
         localStorage.setItem("UserToken", response.data.Token);
@@ -33,7 +35,7 @@ const Login = () => {
           showConfirmButton: false,
         });
 
-        const redirect = searchParams.get("redirect");         
+        const redirect = searchParams.get("redirect");
         navigate(redirect || "/UserDashboard");
       }
     } catch (error) {
