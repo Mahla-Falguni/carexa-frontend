@@ -24,7 +24,7 @@ const AdminAppointmentSlots = () => {
     const fetchSlots = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/adminapi/All-Appointment-Slots",
+                "https://carexa-backend.vercel.app/adminapi/All-Appointment-Slots",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setSlots(res.data.slots || []);
@@ -51,7 +51,7 @@ const AdminAppointmentSlots = () => {
 
         try {
             await axios.delete(
-                `http://localhost:5000/adminapi/delete-slot/${id}`,
+                `https://carexa-backend.vercel.app/adminapi/delete-slot/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });

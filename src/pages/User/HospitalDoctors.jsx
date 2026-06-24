@@ -73,7 +73,7 @@ const HospitalDoctors = () => {
         setBookingSlotId(null);
         try {
             const res = await axios.get(
-                `http://localhost:5000/api/view-slots/${hospitalId}/${doctor._id}`,
+                `https://carexa-backend.vercel.app/api/view-slots/${hospitalId}/${doctor._id}`,
                 { headers }
             );
             setSlots(res.data?.slots || []);
@@ -90,7 +90,7 @@ const HospitalDoctors = () => {
         setBookingSlotId(slot._id);
         try {
             await axios.post(
-                "http://localhost:5000/api/Book-Appointment",
+                "https://carexa-backend.vercel.app/api/Book-Appointment",
                 { slotId: slot._id },
                 { headers }
             );
@@ -245,7 +245,7 @@ const HospitalDoctors = () => {
                                         <div className="hd-card-top">
                                             {doctor.img ? (
                                                 <img className="hd-avatar"
-                                                    src={`http://localhost:5000/uploads/${doctor.img}`}
+                                                    src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
                                                     alt={doctor.name}
                                                     onError={e => { e.target.style.display = "none"; }} />
                                             ) : (
@@ -323,7 +323,7 @@ const HospitalDoctors = () => {
                         <div className="doc-modal-top">
                             {selectedDoctor.img ? (
                                 <img className="doc-modal-avatar"
-                                    src={`http://localhost:5000/uploads/${selectedDoctor.img}`}
+                                    src={`https://carexa-backend.vercel.app/uploads/${selectedDoctor.img}`}
                                     alt={selectedDoctor.name}
                                     onError={e => { e.target.style.display = "none"; }} />
                             ) : (

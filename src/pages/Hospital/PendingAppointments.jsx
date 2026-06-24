@@ -52,7 +52,7 @@ const PendingAppointments = () => {
         setActionLoading(id);
         try {
             await axios.put(
-                `http://localhost:5000/hospitalapi/approve-appointment/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/approve-appointment/${id}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -80,7 +80,7 @@ const PendingAppointments = () => {
         setActionLoading(id);
         try {
             await axios.put(
-                `http://localhost:5000/hospitalapi/reject-appointment/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/reject-appointment/${id}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );

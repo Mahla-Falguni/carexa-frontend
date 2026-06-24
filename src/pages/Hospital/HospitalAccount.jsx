@@ -51,7 +51,7 @@ const HospitalAccount = () => {
                 hospital_address: h.hospital_address || "",
             });
             setImagePreview(h.hospital_img
-                ? `http://localhost:5000/uploads/${h.hospital_img}`
+                ? `https://carexa-backend.vercel.app/uploads/${h.hospital_img}`
                 : null);
         } catch (error) {
             console.log("Error fetching profile:", error);
@@ -86,7 +86,7 @@ const HospitalAccount = () => {
             if (imageFile) data.append("hospital_img", imageFile);
 
             await axios.put(
-                "http://localhost:5000/hospitalapi/update-hospital-profile",
+                "https://carexa-backend.vercel.app/hospitalapi/update-hospital-profile",
                 data,
                 {
                     headers: {
@@ -126,7 +126,7 @@ const HospitalAccount = () => {
         }
         try {
             await axios.put(
-                "http://localhost:5000/hospitalapi/change-hospital-password",
+                "https://carexa-backend.vercel.app/hospitalapi/change-hospital-password",
                 { old_password: passwordData.old_password, new_password: passwordData.new_password },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

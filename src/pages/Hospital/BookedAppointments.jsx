@@ -70,7 +70,7 @@ const BookedAppointments = () => {
             const token = localStorage.getItem("HospitalToken");
 
             await axios.delete(
-                `http://localhost:5000/hospitalapi/delete-appointment/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/delete-appointment/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { MdRefresh, MdTrendingUp } from "react-icons/md";
 
-const BASE  = "http://localhost:5000/adminapi";
+const BASE  = "https://carexa-backend.vercel.app/adminapi";
 const hdrs  = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } });
 const fmt   = (d) => d ? new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "—";
 const fmtT  = (d) => d ? new Date(d).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) : "—";
@@ -567,7 +567,7 @@ const AdminDashboard = () => {
                         <td>
                           <div className="gap-2">
                             {h.hospital_img
-                              ? <img src={`http://localhost:5000/uploads/${h.hospital_img}`} alt="" style={{ width:30, height:30, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
+                              ? <img src={`https://carexa-backend.vercel.app/uploads/${h.hospital_img}`} alt="" style={{ width:30, height:30, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
                               : <div className="av" style={{ background:"linear-gradient(135deg,#0ea5e9,#0284c7)", width:30, height:30, fontSize:11 }}>{(h.hospital_name||"H")[0].toUpperCase()}</div>
                             }
                             <div className="fw-600" style={{ fontSize:13, color:"#0f172a" }}>{h.hospital_name||"—"}</div>
@@ -604,7 +604,7 @@ const AdminDashboard = () => {
                         <td>
                           <div className="gap-2">
                             {d.img
-                              ? <img src={`http://localhost:5000/uploads/${d.img}`} alt="" style={{ width:32, height:32, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
+                              ? <img src={`https://carexa-backend.vercel.app/uploads/${d.img}`} alt="" style={{ width:32, height:32, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
                               : <div className="av" style={{ background:"linear-gradient(135deg,#8b5cf6,#6d28d9)", width:32, height:32, fontSize:12 }}>{(d.name||"D")[0].toUpperCase()}</div>
                             }
                             <div>

@@ -35,7 +35,7 @@ const AdminAccount = () => {
     const fetchProfile = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/adminapi/get-admin-profile",
+                "https://carexa-backend.vercel.app/adminapi/get-admin-profile",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             const a = res.data.admin;
@@ -63,7 +63,7 @@ const AdminAccount = () => {
         setSaving(true);
         try {
             await axios.post(
-                "http://localhost:5000/adminapi/update-admin-profile",
+                "https://carexa-backend.vercel.app/adminapi/update-admin-profile",
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -90,7 +90,7 @@ const AdminAccount = () => {
         }
         try {
             await axios.post(
-                "http://localhost:5000/adminapi/change-admin-password",
+                "https://carexa-backend.vercel.app/adminapi/change-admin-password",
                 { old_password: passwordData.old_password, new_password: passwordData.new_password },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

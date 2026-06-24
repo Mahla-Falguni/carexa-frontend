@@ -23,7 +23,7 @@ const AdminRescheduleRequests = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/adminapi/reschedule-requests",
+                "https://carexa-backend.vercel.app/adminapi/reschedule-requests",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setRequests(res.data.rescheduleRequests || []);

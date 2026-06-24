@@ -25,7 +25,7 @@ const AdminDoctors = () => {
   const getDoctors = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/adminapi/get_doctors",
+        "https://carexa-backend.vercel.app/adminapi/get_doctors",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setDoctors(res.data.doctors || []);
@@ -52,7 +52,7 @@ const AdminDoctors = () => {
 
     try {
       await axios.delete(
-        `http://localhost:5000/adminapi/delete-doctor/${id}`,
+        `https://carexa-backend.vercel.app/adminapi/delete-doctor/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });
@@ -170,7 +170,7 @@ const AdminDoctors = () => {
                     <div className="avatar-ring">
                       {doctor.img ? (
                         <img
-                          src={`http://localhost:5000/uploads/${doctor.img}`}
+                          src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
                           alt={doctor.name}
                           className="w-20 h-20 rounded-full object-cover border-4 border-white"
                         />
@@ -291,7 +291,7 @@ const AdminDoctors = () => {
             <div className="flex flex-col items-center pt-6 pb-2">
               {selectedDoctor.img ? (
                 <img
-                  src={`http://localhost:5000/uploads/${selectedDoctor.img}`}
+                  src={`https://carexa-backend.vercel.app/uploads/${selectedDoctor.img}`}
                   alt={selectedDoctor.name}
                   className="w-20 h-20 rounded-full object-cover border-4 border-blue-100 shadow"
                 />

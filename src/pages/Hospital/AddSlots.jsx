@@ -48,7 +48,7 @@ const AddAppointmentSlot = () => {
     const fetchExistingSlots = async (doctorId, date) => {
         try {
             const res = await axios.get(
-                `http://localhost:5000/hospitalapi/get-slots-by-doctor?doctor_id=${doctorId}&date=${date}`,
+                `https://carexa-backend.vercel.app/hospitalapi/get-slots-by-doctor?doctor_id=${doctorId}&date=${date}`,
                 { headers: { Authorization: `Bearer ${localStorage.getItem("HospitalToken")}` } }
             );
             setExistingSlots(res.data.slots || []);
@@ -85,7 +85,7 @@ const AddAppointmentSlot = () => {
         setLoading(true);
         try {
             await axios.post(
-                "http://localhost:5000/hospitalapi/create-appointment-slots",
+                "https://carexa-backend.vercel.app/hospitalapi/create-appointment-slots",
                 formData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem("HospitalToken")}` } }
             );

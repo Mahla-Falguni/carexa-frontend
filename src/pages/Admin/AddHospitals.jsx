@@ -51,7 +51,7 @@ const AddHospital = () => {
             }
 
             await axios.post(
-                "http://localhost:5000/hospitalapi/create",
+                "https://carexa-backend.vercel.app/hospitalapi/create",
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

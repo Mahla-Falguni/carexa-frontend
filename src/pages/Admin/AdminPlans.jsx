@@ -33,8 +33,8 @@ const AdminPlans = () => {
         setLoading(true);
         try {
             const [plansRes, statsRes] = await Promise.all([
-                axios.get("http://localhost:5000/planapi/get-all-plans", { headers }),
-                axios.get("http://localhost:5000/planapi/plan-stats", { headers }),
+                axios.get("https://carexa-backend.vercel.app/planapi/get-all-plans", { headers }),
+                axios.get("https://carexa-backend.vercel.app/planapi/plan-stats", { headers }),
             ]);
             setPlans(plansRes.data.plans || []);
 
@@ -58,7 +58,7 @@ const AdminPlans = () => {
             return Swal.fire("Error", "All fields are required", "error");
         setSaving(true);
         try {
-            await axios.post("http://localhost:5000/planapi/create-plan", addForm, { headers });
+            await axios.post("https://carexa-backend.vercel.app/planapi/create-plan", addForm, { headers });
             Swal.fire({ icon: "success", title: "Plan Created!", timer: 1500, showConfirmButton: false });
             setShowAddModal(false);
             setAddForm({ plan_name: "", plan_duration: "", plan_price: "" });
@@ -72,7 +72,7 @@ const AdminPlans = () => {
     const handleUpdate = async () => {
         setSaving(true);
         try {
-            await axios.post(`http://localhost:5000/planapi/update-plan/${selectedPlan._id}`, editForm, { headers });
+            await axios.post(`https://carexa-backend.vercel.app/planapi/update-plan/${selectedPlan._id}`, editForm, { headers });
             Swal.fire({ icon: "success", title: "Plan Updated!", timer: 1500, showConfirmButton: false });
             setShowEditModal(false);
             fetchPlans();
@@ -91,7 +91,7 @@ const AdminPlans = () => {
         });
         if (!confirm.isConfirmed) return;
         try {
-            await axios.delete(`http://localhost:5000/planapi/delete-plan/${id}`, { headers });
+            await axios.delete(`https://carexa-backend.vercel.app/planapi/delete-plan/${id}`, { headers });
             Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });
             setPlans(plans.filter(p => p._id !== id));
         } catch { Swal.fire("Error", "Failed to delete plan", "error"); }
@@ -101,7 +101,7 @@ const AdminPlans = () => {
     const handleToggleStatus = async (plan) => {
         try {
             const res = await axios.put(
-                `http://localhost:5000/planapi/toggle-status/${plan._id}`,
+                `https://carexa-backend.vercel.app/planapi/toggle-status/${plan._id}`,
                 {}, { headers }
             );
             setPlans(plans.map(p => p._id === plan._id ? { ...p, plan_status: res.data.plan.plan_status } : p));
@@ -117,7 +117,7 @@ const AdminPlans = () => {
         setHospitalsLoading(true);
         try {
             const res = await axios.get(
-                `http://localhost:5000/planapi/hospitals-by-plan/${plan._id}`,
+                `https://carexa-backend.vercel.app/planapi/hospitals-by-plan/${plan._id}`,
                 { headers }
             );
             setPlanHospitals(res.data.subscriptions || []);
@@ -494,7 +494,7 @@ const AdminPlans = () => {
                                         return (
                                             <div key={i} className="hosp-card flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
                                                 {h?.hospital_img ? (
-                                                    <img src={`http://localhost:5000/uploads/${h.hospital_img}`}
+                                                    <img src={`https://carexa-backend.vercel.app/uploads/${h.hospital_img}`}
                                                         alt={h.hospital_name}
                                                         className="w-12 h-12 rounded-xl object-cover border-2 border-blue-100 shrink-0" />
                                                 ) : (
@@ -563,7 +563,7 @@ const SubscribedHospitalsList = ({ token }) => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/planapi/all-subscriptions",
+                const res = await axios.get("https://carexa-backend.vercel.app/planapi/all-subscriptions",
                     { headers: { Authorization: `Bearer ${token}` } });
                 setSubscriptions(res.data.subscriptions || []);
             } catch (e) {
@@ -636,7 +636,7 @@ const SubscribedHospitalsList = ({ token }) => {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 {sub.hospital_id?.hospital_img ? (
-                                                    <img src={`http://localhost:5000/uploads/${sub.hospital_id.hospital_img}`}
+                                                    <img src={`https://carexa-backend.vercel.app/uploads/${sub.hospital_id.hospital_img}`}
                                                         className="w-8 h-8 rounded-lg object-cover shrink-0" alt="" />
                                                 ) : (
                                                     <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">

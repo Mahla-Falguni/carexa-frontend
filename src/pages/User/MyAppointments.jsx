@@ -187,8 +187,8 @@ const MyAppointments = () => {
         setLoading(true);
         try {
             const [apptRes, reschedRes] = await Promise.all([
-                axios.get("http://localhost:5000/api/MyAppointment", { headers }),
-                axios.get("http://localhost:5000/api/my-reschedule-requests", { headers }).catch(() => ({ data: { requests: [] } }))
+                axios.get("https://carexa-backend.vercel.app/api/MyAppointment", { headers }),
+                axios.get("https://carexa-backend.vercel.app/api/my-reschedule-requests", { headers }).catch(() => ({ data: { requests: [] } }))
             ]);
             setAppointments(apptRes.data.appointments || []);
             const pendingSet = new Set(
@@ -239,7 +239,7 @@ const MyAppointments = () => {
 
     const handleRescheduleConfirm = async ({ appointmentId, preferredDate, preferredStartTime, preferredEndTime }) => {
         try {
-            await axios.post("http://localhost:5000/api/Request-Reschedule", { appointmentId, preferredDate, preferredStartTime, preferredEndTime }, { headers });
+            await axios.post("https://carexa-backend.vercel.app/api/Request-Reschedule", { appointmentId, preferredDate, preferredStartTime, preferredEndTime }, { headers });
             setPendingReschedules(prev => new Set([...prev, appointmentId]));
             setShowRescheduleModal(false); setRescheduleAppt(null);
             Swal.fire({ icon:"success", title:"Request Sent!", text:`Reschedule requested for ${preferredDate} at ${preferredStartTime}.`, timer:2500, showConfirmButton:false });
@@ -251,7 +251,7 @@ const MyAppointments = () => {
         const confirm = await Swal.fire({ title:"Cancel Appointment?", text:"This will be permanently cancelled.", icon:"warning", showCancelButton:true, confirmButtonColor:"#dc2626", cancelButtonColor:"#6b7280", confirmButtonText:"Yes, Cancel It" });
         if (!confirm.isConfirmed) return;
         try {
-            await axios.post("http://localhost:5000/api/cancel-appointment", { appointmentId:appt._id }, { headers });
+            await axios.post("https://carexa-backend.vercel.app/api/cancel-appointment", { appointmentId:appt._id }, { headers });
             Swal.fire({ icon:"success", title:"Appointment Cancelled!", timer:1500, showConfirmButton:false });
             fetchAppointments();
         } catch (err) { Swal.fire("Error", err?.response?.data?.message || "Failed to cancel", "error"); }

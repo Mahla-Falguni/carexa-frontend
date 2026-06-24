@@ -31,7 +31,7 @@ const AdminHospitals = () => {
   const getHospitals = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/adminapi/get_hospitals",
+        "https://carexa-backend.vercel.app/adminapi/get_hospitals",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setHospitals(res.data.hospitals || res.data.data || []);
@@ -63,7 +63,7 @@ const AdminHospitals = () => {
   const handleEditSave = async () => {
     try {
       await axios.post(
-        `http://localhost:5000/adminapi/update-hospital/${editHospital._id}`,
+        `https://carexa-backend.vercel.app/adminapi/update-hospital/${editHospital._id}`,
         editForm,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -85,7 +85,7 @@ const AdminHospitals = () => {
     if (!confirm.isConfirmed) return;
     try {
       await axios.delete(
-        `http://localhost:5000/adminapi/delete-hospital/${id}`,
+        `https://carexa-backend.vercel.app/adminapi/delete-hospital/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });
@@ -101,7 +101,7 @@ const AdminHospitals = () => {
     const toggleTo  = hospital.hospital_status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
     try {
       await axios.put(
-        `http://localhost:5000/adminapi/toggle-hospital-status/${hospital._id}`,
+        `https://carexa-backend.vercel.app/adminapi/toggle-hospital-status/${hospital._id}`,
         { hospital_status: toggleTo },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -216,7 +216,7 @@ const AdminHospitals = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           {hospital.hospital_img ? (
-                            <img src={`http://localhost:5000/uploads/${hospital.hospital_img}`}
+                            <img src={`https://carexa-backend.vercel.app/uploads/${hospital.hospital_img}`}
                               className="w-8 h-8 rounded-full object-cover border-2 border-blue-100 shrink-0" alt="" />
                           ) : (
                             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0">

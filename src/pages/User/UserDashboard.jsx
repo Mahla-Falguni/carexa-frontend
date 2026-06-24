@@ -524,7 +524,7 @@ const UserDashboard = () => {
                 <div key={h._id||i} className="hov-lift" onClick={() => navigate("/userdashboard/hospitals")}
                   style={{ background:"#fff", borderRadius:16, border:"1.5px solid #e8f0f8", overflow:"hidden", cursor:"pointer", boxShadow:"0 1px 4px rgba(0,0,0,0.04)" }}>
                   {h.hospital_img
-                    ? <img src={`http://localhost:5000/uploads/${h.hospital_img}`} alt="" style={{ width:"100%", height:90, objectFit:"cover" }}/>
+                    ? <img src={`https://carexa-backend.vercel.app/uploads/${h.hospital_img}`} alt="" style={{ width:"100%", height:90, objectFit:"cover" }}/>
                     : <div style={{ width:"100%", height:80, background:`linear-gradient(135deg,${["#1558b0","#6c3483","#b85c10","#1a7a45"][i%4]},${["#2f80ed","#8e44ad","#e67e22","#27ae60"][i%4]})`, display:"flex", alignItems:"center", justifyContent:"center" }}>
                         <FaHospital size={28} style={{ color:"rgba(255,255,255,0.65)" }}/>
                       </div>

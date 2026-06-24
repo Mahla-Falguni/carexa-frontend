@@ -279,7 +279,7 @@ const Hospitals = () => {
                     <div className="hp-card-img-wrap">
                       <img className="hp-card-img"
                         src={hospital.hospital_img
-                          ? `http://localhost:5000/uploads/${hospital.hospital_img}`
+                          ? `https://carexa-backend.vercel.app/uploads/${hospital.hospital_img}`
                           : "/hospital.png"}
                         alt={hospital.hospital_name}
                         onError={(e) => { e.target.src = "/hospital.png"; }} />
@@ -330,7 +330,7 @@ const Hospitals = () => {
             <div style={{ position: "relative" }}>
               <img className="modal-img"
                 src={selectedHospital.hospital_img
-                  ? `http://localhost:5000/uploads/${selectedHospital.hospital_img}`
+                  ? `https://carexa-backend.vercel.app/uploads/${selectedHospital.hospital_img}`
                   : "/hospital.png"}
                 alt={selectedHospital.hospital_name}
                 onError={(e) => { e.target.src = "/hospital.png"; }} />

@@ -109,7 +109,7 @@ const AvailableDoctors = () => {
                                     <div className="avatar-ring shrink-0">
                                         {doctor.img ? (
                                             <img
-                                                src={`http://localhost:5000/uploads/${doctor.img}`}
+                                                src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
                                                 alt={doctor.name}
                                                 onError={e => { e.target.onerror = null; e.target.src = "/doctor.png"; }}
                                                 className="w-16 h-16 rounded-full object-cover border-3 border-white"

@@ -10,7 +10,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { FaLock, FaEye, FaEyeSlash, FaShieldAlt, FaArrowLeft } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-const BASE = "http://localhost:5000/adminapi";
+const BASE = "https://carexa-backend.vercel.app/adminapi";
 
 const AdminResetPassword = () => {
     const { token }    = useParams();

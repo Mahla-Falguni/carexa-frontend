@@ -16,7 +16,7 @@ const DoctorDetails = () => {
       const token = localStorage.getItem("adminToken");
 
       const res = await axios.get(
-        `http://localhost:5000/adminapi/get_doctors/${id}`,
+        `https://carexa-backend.vercel.app/adminapi/get_doctors/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -52,7 +52,7 @@ const DoctorDetails = () => {
           {/* Doctor Image */}
           {doctor.img ? (
             <img
-              src={`http://localhost:5000/uploads/${doctor.img}`}
+              src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
               alt="doctor"
               className="w-40 h-40 rounded-full object-cover"
             />

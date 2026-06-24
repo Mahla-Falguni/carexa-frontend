@@ -85,7 +85,7 @@ const StaffLogin = () => {
         if (newPassword.length < 6) return setError("Password must be at least 6 characters.");
         setSetPwLoading(true);
         try {
-            const res = await axios.post("http://localhost:5000/staffapi/set-password", {
+            const res = await axios.post("https://carexa-backend.vercel.app/staffapi/set-password", {
                 staffId: pendingStaffId,
                 newPassword,
                 confirmPassword

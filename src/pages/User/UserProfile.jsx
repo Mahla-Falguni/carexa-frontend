@@ -71,7 +71,7 @@ const UserProfile = () => {
             if (imageFile) fd.append("patient_img", imageFile);
 
             const res = await axios.post(
-                "http://localhost:5000/api/update-profile", fd,
+                "https://carexa-backend.vercel.app/api/update-profile", fd,
                 { headers: { ...headers, "Content-Type": "multipart/form-data" } }
             );
             setUser(res.data.user);
@@ -98,7 +98,7 @@ const UserProfile = () => {
             return Swal.fire("Error", "Password must be at least 6 characters", "error");
         setSaving(true);
         try {
-            await axios.post("http://localhost:5000/api/change-password", {
+            await axios.post("https://carexa-backend.vercel.app/api/change-password", {
                 current_password: passForm.current_password,
                 new_password: passForm.new_password
             }, { headers });
@@ -122,7 +122,7 @@ const UserProfile = () => {
     const avatarUrl = preview
         ? preview
         : user?.patient_img
-            ? `http://localhost:5000/uploads/${user.patient_img}`
+            ? `https://carexa-backend.vercel.app/uploads/${user.patient_img}`
             : null;
 
     return (

@@ -16,7 +16,7 @@ const AdminLogin = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                "http://localhost:5000/adminapi/admin_login",
+                "https://carexa-backend.vercel.app/adminapi/admin_login",
                 { admin_email: loginData.email, admin_pass: loginData.password }
             );
 

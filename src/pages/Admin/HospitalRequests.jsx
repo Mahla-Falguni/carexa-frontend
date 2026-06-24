@@ -23,7 +23,7 @@ const HospitalRequests = () => {
     const getRequests = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/adminapi/HospitalRequests",
+                "https://carexa-backend.vercel.app/adminapi/HospitalRequests",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setRequests(res.data.data || []);
@@ -56,7 +56,7 @@ const HospitalRequests = () => {
         setActionLoading(id + status);
         try {
             await axios.post(
-                `http://localhost:5000/adminapi/approve_hospital_request/${id}`,
+                `https://carexa-backend.vercel.app/adminapi/approve_hospital_request/${id}`,
                 { request_status: status },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

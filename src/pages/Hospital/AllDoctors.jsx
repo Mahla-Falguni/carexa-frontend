@@ -53,7 +53,7 @@ const AllDoctors = () => {
             specialization:   doctor.specialization   || "",
             consultation_fee: doctor.consultation_fee || ""
         });
-        setEditPreview(doctor.img ? `http://localhost:5000/uploads/${doctor.img}` : null);
+        setEditPreview(doctor.img ? `https://carexa-backend.vercel.app/uploads/${doctor.img}` : null);
         setEditImg(null);
         setShowEditModal(true);
     };
@@ -67,7 +67,7 @@ const AllDoctors = () => {
             if (editImg) data.append("img", editImg);
 
             await axios.post(
-                `http://localhost:5000/hospitalapi/update-doctor-profile/${editDoctor._id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/update-doctor-profile/${editDoctor._id}`,
                 data,
                 { headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" } }
             );
@@ -96,7 +96,7 @@ const AllDoctors = () => {
 
         try {
             await axios.delete(
-                `http://localhost:5000/hospitalapi/delete-doctor/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/delete-doctor/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });
@@ -225,7 +225,7 @@ const AllDoctors = () => {
                                                 <div className="flex items-center gap-3">
                                                     {doctor.img ? (
                                                         <img
-                                                            src={`http://localhost:5000/uploads/${doctor.img}`}
+                                                            src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
                                                             alt={doctor.name}
                                                             onError={e => { e.target.onerror = null; e.target.src = "/doctor.png"; }}
                                                             className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shrink-0"

@@ -104,7 +104,7 @@ const EditSlot = () => {
         setSaving(true);
         try {
             await axios.post(
-                `http://localhost:5000/hospitalapi/update-slot/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/update-slot/${id}`,
                 {
                     appointment_date: formData.appointment_date,
                     start_time:       formData.start_time,

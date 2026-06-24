@@ -76,7 +76,7 @@ const HospitalPlans = () => {
         try {
             setSubscribing(plan._id);
             const { data: order } = await axios.post(
-                "http://localhost:5000/paymentapi/create-order",
+                "https://carexa-backend.vercel.app/paymentapi/create-order",
                 { amount: plan.plan_price },
                 { headers }
             );
@@ -91,7 +91,7 @@ const HospitalPlans = () => {
                 handler: async (response) => {
                     try {
                         const verifyRes = await axios.post(
-                            "http://localhost:5000/paymentapi/verify-payment",
+                            "https://carexa-backend.vercel.app/paymentapi/verify-payment",
                             {
                                 razorpay_order_id:   response.razorpay_order_id,
                                 razorpay_payment_id: response.razorpay_payment_id,
@@ -151,7 +151,7 @@ const HospitalPlans = () => {
         });
         if (!confirm.isConfirmed) return;
         try {
-            await axios.put("http://localhost:5000/hospitalapi/cancel-plan", {}, { headers });
+            await axios.put("https://carexa-backend.vercel.app/hospitalapi/cancel-plan", {}, { headers });
             setCurrentPlan(null);
             Swal.fire({ icon: "success", title: "Plan Cancelled", timer: 1500, showConfirmButton: false });
             fetchData(true);

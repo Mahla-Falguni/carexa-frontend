@@ -53,7 +53,7 @@ const AppointmentSlots = () => {
 
         try {
             await axios.delete(
-                `http://localhost:5000/hospitalapi/delete-slot/${id}`,
+                `https://carexa-backend.vercel.app/hospitalapi/delete-slot/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });

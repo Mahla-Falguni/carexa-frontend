@@ -9,7 +9,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 
-const BASE        = "http://localhost:5000/hospitalapi";
+const BASE        = "https://carexa-backend.vercel.app/hospitalapi";
 const TOKEN_KEY   = "HospitalToken";
 const NAME_KEY    = "HospitalName";
 const LOGIN_ROUTE = "/hospitallogin";

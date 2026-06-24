@@ -25,7 +25,7 @@ const AdminAllAppointments = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/adminapi/all-appointments",
+                "https://carexa-backend.vercel.app/adminapi/all-appointments",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setAppointments(res.data.appointments || []);
@@ -52,7 +52,7 @@ const AdminAllAppointments = () => {
 
         try {
             await axios.delete(
-                `http://localhost:5000/adminapi/delete-appointment/${id}`,
+                `https://carexa-backend.vercel.app/adminapi/delete-appointment/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             Swal.fire({ icon: "success", title: "Deleted!", timer: 1500, showConfirmButton: false });
