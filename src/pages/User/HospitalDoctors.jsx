@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaUserMd, FaArrowLeft, FaCalendarAlt, FaClock,
     FaSearch, FaStar, FaTimes, FaCheckCircle, FaPhone,
@@ -243,16 +244,10 @@ const HospitalDoctors = () => {
                                 {filtered.length > 0 ? filtered.map(doctor => (
                                     <div className="hd-card" key={doctor._id}>
                                         <div className="hd-card-top">
-                                            {doctor.img ? (
-                                                <img className="hd-avatar"
-                                                    src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
-                                                    alt={doctor.name}
-                                                    onError={e => { e.target.style.display = "none"; }} />
-                                            ) : (
-                                                <div className="hd-avatar-placeholder">
-                                                    <FaUserMd size={28} color="#fff" />
-                                                </div>
-                                            )}
+                                            <img className="hd-avatar"
+                                                src={getImageUrl(doctor.img, 'doctor')}
+                                                alt={doctor.name}
+                                                onError={e => handleImageError(e, 'doctor')} />
                                             <div className="hd-name">{doctor.name}</div>
                                             {doctor.specialization && (
                                                 <div className="hd-spec">{doctor.specialization}</div>
@@ -321,16 +316,10 @@ const HospitalDoctors = () => {
                 <div className="modal-overlay" onClick={() => setShowDoctorModal(false)}>
                     <div className="doc-modal" onClick={e => e.stopPropagation()}>
                         <div className="doc-modal-top">
-                            {selectedDoctor.img ? (
-                                <img className="doc-modal-avatar"
-                                    src={`https://carexa-backend.vercel.app/uploads/${selectedDoctor.img}`}
-                                    alt={selectedDoctor.name}
-                                    onError={e => { e.target.style.display = "none"; }} />
-                            ) : (
-                                <div className="doc-modal-avatar-ph">
-                                    <FaUserMd size={32} color="#fff" />
-                                </div>
-                            )}
+                            <img className="doc-modal-avatar"
+                                src={getImageUrl(selectedDoctor.img, 'doctor')}
+                                alt={selectedDoctor.name}
+                                onError={e => handleImageError(e, 'doctor')} />
                             <div>
                                 <div className="doc-modal-name">{selectedDoctor.name}</div>
                                 {selectedDoctor.specialization && (

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaUserMd, FaSearch, FaEnvelope, FaPhone,
     FaRupeeSign, FaCheckCircle
@@ -107,18 +108,12 @@ const AvailableDoctors = () => {
                                 {/* Top — Avatar + Status */}
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="avatar-ring shrink-0">
-                                        {doctor.img ? (
                                             <img
-                                                src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
+                                                src={getImageUrl(doctor.img, 'doctor')}
                                                 alt={doctor.name}
-                                                onError={e => { e.target.onerror = null; e.target.src = "/doctor.png"; }}
+                                                onError={e => handleImageError(e, 'doctor')}
                                                 className="w-16 h-16 rounded-full object-cover border-3 border-white"
                                             />
-                                        ) : (
-                                            <div className="w-16 h-16 rounded-full border-3 border-white bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                                                <FaUserMd className="text-emerald-500" size={24} />
-                                            </div>
-                                        )}
                                     </div>
                                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200">
                                         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>

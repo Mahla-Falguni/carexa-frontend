@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt,
     FaCalendarAlt, FaVenusMars, FaCamera, FaSave,
@@ -121,9 +122,7 @@ const UserProfile = () => {
 
     const avatarUrl = preview
         ? preview
-        : user?.patient_img
-            ? `https://carexa-backend.vercel.app/uploads/${user.patient_img}`
-            : null;
+        : getImageUrl(user?.patient_img, 'user');
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/10 p-4 md:p-8">
@@ -153,9 +152,9 @@ const UserProfile = () => {
 
                             {/* Avatar */}
                             <div className="relative w-fit">
-                                {avatarUrl ? (
-                                    <img src={avatarUrl} alt="avatar"
-                                        className="w-24 h-24 rounded-full object-cover border-4 border-white avatar-ring" />
+                                <img src={avatarUrl} alt="avatar"
+                                    onError={e => handleImageError(e, 'user')}
+                                    className="w-24 h-24 rounded-full object-cover border-4 border-white avatar-ring" />
                                 ) : (
                                     <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-4 border-white avatar-ring flex items-center justify-center">
                                         <span className="text-white text-3xl font-bold">

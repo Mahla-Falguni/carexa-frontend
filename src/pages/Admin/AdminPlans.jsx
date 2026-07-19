@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import Swal from "sweetalert2";
 import {
     FaLayerGroup, FaPlus, FaEdit, FaTrash, FaEye,
@@ -493,15 +494,10 @@ const AdminPlans = () => {
                                         const h = sub.hospital_id;
                                         return (
                                             <div key={i} className="hosp-card flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                                {h?.hospital_img ? (
-                                                    <img src={`https://carexa-backend.vercel.app/uploads/${h.hospital_img}`}
-                                                        alt={h.hospital_name}
+                                                    <img src={getImageUrl(h?.hospital_img, 'hospital')}
+                                                        alt={h?.hospital_name || "Hospital"}
+                                                        onError={e => handleImageError(e, 'hospital')}
                                                         className="w-12 h-12 rounded-xl object-cover border-2 border-blue-100 shrink-0" />
-                                                ) : (
-                                                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
-                                                        <FaHospital className="text-blue-500" size={18} />
-                                                    </div>
-                                                )}
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm font-bold text-slate-700 truncate">{h?.hospital_name || "—"}</p>
                                                     <div className="flex flex-wrap gap-3 mt-1">
@@ -635,14 +631,9 @@ const SubscribedHospitalsList = ({ token }) => {
                                         <td className="px-6 py-4 text-sm text-slate-400">{(currentPage - 1) * ITEMS_PER_PAGE + i + 1}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                {sub.hospital_id?.hospital_img ? (
-                                                    <img src={`https://carexa-backend.vercel.app/uploads/${sub.hospital_id.hospital_img}`}
+                                                    <img src={getImageUrl(sub.hospital_id?.hospital_img, 'hospital')}
+                                                        onError={e => handleImageError(e, 'hospital')}
                                                         className="w-8 h-8 rounded-lg object-cover shrink-0" alt="" />
-                                                ) : (
-                                                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
-                                                        <FaHospital size={12} className="text-blue-500" />
-                                                    </div>
-                                                )}
                                                 <p className="text-sm font-semibold text-slate-700">{sub.hospital_id?.hospital_name || "—"}</p>
                                             </div>
                                         </td>

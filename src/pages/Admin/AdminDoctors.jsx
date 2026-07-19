@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import Swal from "sweetalert2";
 import {
   FaUserMd, FaEnvelope, FaPhone, FaRupeeSign,
@@ -168,17 +169,12 @@ const AdminDoctors = () => {
                   {/* Avatar — pulls up enough to fully cover the banner bottom edge */}
                   <div className="flex justify-center -mt-14 mb-3">
                     <div className="avatar-ring">
-                      {doctor.img ? (
                         <img
-                          src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
+                          src={getImageUrl(doctor.img, 'doctor')}
                           alt={doctor.name}
+                          onError={e => handleImageError(e, 'doctor')}
                           className="w-20 h-20 rounded-full object-cover border-4 border-white"
                         />
-                      ) : (
-                        <div className="w-20 h-20 rounded-full border-4 border-white bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
-                          <FaUserMd className="text-blue-500" size={28} />
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -289,17 +285,12 @@ const AdminDoctors = () => {
 
             {/* Avatar */}
             <div className="flex flex-col items-center pt-6 pb-2">
-              {selectedDoctor.img ? (
                 <img
-                  src={`https://carexa-backend.vercel.app/uploads/${selectedDoctor.img}`}
+                  src={getImageUrl(selectedDoctor.img, 'doctor')}
                   alt={selectedDoctor.name}
+                  onError={e => handleImageError(e, 'doctor')}
                   className="w-20 h-20 rounded-full object-cover border-4 border-blue-100 shadow"
                 />
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center border-4 border-blue-50">
-                  <FaUserMd className="text-blue-500" size={28} />
-                </div>
-              )}
               <h3 className="text-lg font-bold text-slate-800 mt-3">{selectedDoctor.name}</h3>
               <span className="px-3 py-0.5 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100 mt-1">
                 {selectedDoctor.specialization}

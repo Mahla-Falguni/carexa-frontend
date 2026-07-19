@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import { useParams } from "react-router-dom";
 import { FaUserMd } from "react-icons/fa";
 
@@ -50,15 +51,12 @@ const DoctorDetails = () => {
         <div className="flex items-center gap-8">
 
           {/* Doctor Image */}
-          {doctor.img ? (
             <img
-              src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
+              src={getImageUrl(doctor.img, 'doctor')}
               alt="doctor"
+              onError={e => handleImageError(e, 'doctor')}
               className="w-40 h-40 rounded-full object-cover"
             />
-          ) : (
-            <FaUserMd className="text-blue-500 text-7xl" />
-          )}
 
           {/* Basic Info */}
           <div>

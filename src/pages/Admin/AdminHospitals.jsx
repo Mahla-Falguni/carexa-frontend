@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
@@ -215,14 +216,9 @@ const AdminHospitals = () => {
                       {/* Hospital Name */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          {hospital.hospital_img ? (
-                            <img src={`https://carexa-backend.vercel.app/uploads/${hospital.hospital_img}`}
+                            <img src={getImageUrl(hospital.hospital_img, 'hospital')}
+                              onError={e => handleImageError(e, 'hospital')}
                               className="w-8 h-8 rounded-full object-cover border-2 border-blue-100 shrink-0" alt="" />
-                          ) : (
-                            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
-                              <FaHospital size={12} className="text-blue-600" />
-                            </div>
-                          )}
                           <p className="text-sm font-semibold text-slate-700">{hospital.hospital_name}</p>
                         </div>
                       </td>

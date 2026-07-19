@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import Swal from "sweetalert2";
 import {
     FaUserMd, FaEnvelope, FaPhone, FaHospital,
@@ -120,9 +121,7 @@ const StaffProfile = () => {
 
     const avatarSrc = imgPreview
         ? imgPreview
-        : staff?.img
-        ? `${BASE_URL}/uploads/${staff.img}`
-        : null;
+        : getImageUrl(staff?.img, 'doctor');
 
     if (loading) return (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "60vh" }}>
@@ -177,12 +176,7 @@ const StaffProfile = () => {
                                 display: "flex", alignItems: "center", justifyContent: "center",
                                 overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.12)"
                             }}>
-                                {avatarSrc
-                                    ? <img src={avatarSrc} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                                    : <span style={{ fontSize: 32, fontWeight: 800, color: "#fff" }}>
-                                        {(staff?.name || "S")[0].toUpperCase()}
-                                      </span>
-                                }
+                                <img src={avatarSrc} alt="avatar" onError={e => handleImageError(e, 'doctor')} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                             </div>
                             {editing && (
                                 <label style={{

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
   FaHospital, FaUserMd, FaCalendarCheck, FaClock,
   FaRedo, FaClipboardList, FaChartBar, FaExchangeAlt,
@@ -567,7 +568,11 @@ const AdminDashboard = () => {
                         <td>
                           <div className="gap-2">
                             {h.hospital_img
-                              ? <img src={`https://carexa-backend.vercel.app/uploads/${h.hospital_img}`} alt="" style={{ width:30, height:30, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
+                              ? <img 
+                              src={getImageUrl(h.hospital_img, 'hospital')} 
+                              alt="" 
+                              onError={e => handleImageError(e, 'hospital')}
+                              style={{ width:30, height:30, borderRadius:"50%", objectFit:"cover", border:"2px solid #e2e8f0" }}/>
                               : <div className="av" style={{ background:"linear-gradient(135deg,#0ea5e9,#0284c7)", width:30, height:30, fontSize:11 }}>{(h.hospital_name||"H")[0].toUpperCase()}</div>
                             }
                             <div className="fw-600" style={{ fontSize:13, color:"#0f172a" }}>{h.hospital_name||"—"}</div>

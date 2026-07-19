@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaHospital, FaEdit, FaSave, FaTimes, FaLock,
     FaCamera, FaPhone, FaEnvelope, FaMapMarkerAlt,
@@ -50,9 +51,7 @@ const HospitalAccount = () => {
                 hospital_phone: h.hospital_phone || "",
                 hospital_address: h.hospital_address || "",
             });
-            setImagePreview(h.hospital_img
-                ? `https://carexa-backend.vercel.app/uploads/${h.hospital_img}`
-                : null);
+            setImagePreview(getImageUrl(h.hospital_img, 'hospital'));
         } catch (error) {
             console.log("Error fetching profile:", error);
         } finally {
@@ -207,10 +206,10 @@ const HospitalAccount = () => {
                             <div className="flex flex-col items-center -mt-14 pb-6 px-6">
                                 <div className="relative">
                                     <div className="avatar-ring">
-                                        {imagePreview ? (
                                             <img
                                                 src={imagePreview}
                                                 alt="Hospital"
+                                                onError={(e) => handleImageError(e, 'hospital')}
                                                 className="w-24 h-24 rounded-full object-cover border-4 border-white"
                                             />
                                         ) : (

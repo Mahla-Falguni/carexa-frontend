@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 
 import {
   FaHospital, FaMapMarkerAlt, FaSearch, FaArrowRight, FaStar,
@@ -278,11 +279,9 @@ const Hospitals = () => {
                   <div className="hp-card" key={hospital._id}>
                     <div className="hp-card-img-wrap">
                       <img className="hp-card-img"
-                        src={hospital.hospital_img
-                          ? `https://carexa-backend.vercel.app/uploads/${hospital.hospital_img}`
-                          : "/hospital.png"}
+                        src={getImageUrl(hospital.hospital_img, 'hospital')}
                         alt={hospital.hospital_name}
-                        onError={(e) => { e.target.src = "/hospital.png"; }} />
+                        onError={(e) => handleImageError(e, 'hospital')} />
                       <div className="hp-card-img-overlay" />
                       <div className="hp-card-badge">Verified ✓</div>
                       <div className="hp-card-rating"><FaStar size={10} /> 4.5</div>
@@ -329,11 +328,9 @@ const Hospitals = () => {
 
             <div style={{ position: "relative" }}>
               <img className="modal-img"
-                src={selectedHospital.hospital_img
-                  ? `https://carexa-backend.vercel.app/uploads/${selectedHospital.hospital_img}`
-                  : "/hospital.png"}
+                src={getImageUrl(selectedHospital.hospital_img, 'hospital')}
                 alt={selectedHospital.hospital_name}
-                onError={(e) => { e.target.src = "/hospital.png"; }} />
+                onError={(e) => handleImageError(e, 'hospital')} />
               <button className="modal-close-x" onClick={() => setShowModal(false)}>
                 <FaTimes size={14} />
               </button>

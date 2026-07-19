@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaUserMd, FaTrash, FaEdit, FaPlus,
     FaSearch, FaEnvelope, FaPhone, FaRupeeSign,
@@ -53,7 +54,7 @@ const AllDoctors = () => {
             specialization:   doctor.specialization   || "",
             consultation_fee: doctor.consultation_fee || ""
         });
-        setEditPreview(doctor.img ? `https://carexa-backend.vercel.app/uploads/${doctor.img}` : null);
+        setEditPreview(getImageUrl(doctor.img, 'doctor'));
         setEditImg(null);
         setShowEditModal(true);
     };
@@ -223,18 +224,12 @@ const AllDoctors = () => {
                                             {/* Doctor */}
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    {doctor.img ? (
                                                         <img
-                                                            src={`https://carexa-backend.vercel.app/uploads/${doctor.img}`}
+                                                            src={getImageUrl(doctor.img, 'doctor')}
                                                             alt={doctor.name}
-                                                            onError={e => { e.target.onerror = null; e.target.src = "/doctor.png"; }}
+                                                            onError={e => handleImageError(e, 'doctor')}
                                                             className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shrink-0"
                                                         />
-                                                    ) : (
-                                                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                                                            <FaUserMd className="text-blue-500" size={14} />
-                                                        </div>
-                                                    )}
                                                     <p className="text-sm font-semibold text-slate-700">{doctor.name}</p>
                                                 </div>
                                             </td>
