@@ -208,7 +208,7 @@ const UserFooter = () => {
 
         <div className="uf-bottom">
           <p className="uf-copy">
-            © {year} <span>Carexa</span>. Designed and Develpoed bu Survivor Infotch. ❤️
+            © {year} <span>Carexa</span>. Designed and Develpoed by Survivor Infotch. 
           </p>
           <div className="uf-badges">
             <span className="uf-badge">🔒 HIPAA Compliant</span>
