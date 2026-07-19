@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import {
   FaFileMedical, FaWalking, FaCalendarCheck, FaStethoscope,
   FaPills, FaNotesMedical, FaHeartbeat, FaHospital, FaUserMd,
