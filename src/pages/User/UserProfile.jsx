@@ -155,13 +155,6 @@ const UserProfile = () => {
                                 <img src={avatarUrl} alt="avatar"
                                     onError={e => handleImageError(e, 'user')}
                                     className="w-24 h-24 rounded-full object-cover border-4 border-white avatar-ring" />
-                                ) : (
-                                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-4 border-white avatar-ring flex items-center justify-center">
-                                        <span className="text-white text-3xl font-bold">
-                                            {user?.patient_name?.charAt(0)?.toUpperCase() || "P"}
-                                        </span>
-                                    </div>
-                                )}
                                 <button onClick={() => fileRef.current.click()}
                                     className="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center border-2 border-white transition shadow-md">
                                     <FaCamera size={12} className="text-white" />
