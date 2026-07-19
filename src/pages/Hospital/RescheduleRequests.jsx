@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import {
     FaExchangeAlt, FaCheckCircle, FaTimesCircle,
     FaEye, FaSearch, FaUserMd, FaCalendarAlt,
@@ -8,6 +9,7 @@ import {
 
 const RescheduleRequests = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [requests, setRequests]               = useState([]);
     const [loading, setLoading]                 = useState(true);
     const [selectedRequest, setSelectedRequest] = useState(null);
@@ -24,7 +26,7 @@ const RescheduleRequests = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "https://carexa-backend.vercel.app/hospitalapi/reschedule-request",
+                "https://carexa-backend.vercel.app/hospitalapi/get-all-reschedulerequests",
                 { headers }
             );
             setRequests(res.data.rescheduleRequests || []);
@@ -57,11 +59,15 @@ const RescheduleRequests = () => {
 
     const filtered = requests.filter(r => {
         const matchStatus = filterStatus === "ALL" || r.status === filterStatus;
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).trim().toLowerCase();
+        if (!q) return matchStatus;
+        const pat = r.appointment_id?.patient_id || r.requested_by;
         return matchStatus && (
-            r.appointment_id?.doctor_id?.name?.toLowerCase().includes(q) ||
-            r.appointment_id?.hospital_id?.hospital_name?.toLowerCase().includes(q) ||
-            r.reason?.toLowerCase().includes(q)
+            (pat?.patient_name || "").toLowerCase().includes(q) ||
+            (pat?.patient_email || "").toLowerCase().includes(q) ||
+            (r.appointment_id?.doctor_id?.name || "").toLowerCase().includes(q) ||
+            (r.reason || "").toLowerCase().includes(q) ||
+            (r.status || "").toLowerCase().includes(q)
         );
     });
 

@@ -72,6 +72,8 @@ const Empty = ({ icon, text }) => (
 // ═════════════════════════════════════════════════════════════════════════════
 const UserDashboard = () => {
   const navigate = useNavigate();
+  const outletContext = useOutletContext() || {};
+  const globalSearch  = outletContext.globalSearch || "";
   const name     = localStorage.getItem("Name") || "Patient";
   const initials = name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0,2);
   const h        = new Date().getHours();
@@ -87,7 +89,7 @@ const UserDashboard = () => {
   const [feedbacks,    setFeedbacks]    = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [refreshing,   setRefreshing]   = useState(false);
-  const [activeTab,    setActiveTab]    = useState("appts");  // ✅ declared here
+  const [activeTab,    setActiveTab]    = useState("appts");
 
   // ── fetch all endpoints in parallel ──────────────────────────────────────
   const fetchAll = async (isRefresh = false) => {
@@ -117,14 +119,17 @@ const UserDashboard = () => {
   useEffect(() => { fetchAll(); }, []);
 
   // ── derived values ────────────────────────────────────────────────────────
+  const q = globalSearch.trim().toLowerCase();
   const cnt   = (s) => appointments.filter(a => a.appointment_status === s).length;
   const today = new Date(); today.setHours(0,0,0,0);
   const upcoming = appointments
     .filter(a => ["SCHEDULED","RESCHEDULED","PENDING"].includes(a.appointment_status) && new Date(a.appointment_date) >= today)
     .sort((a,b) => new Date(a.appointment_date) - new Date(b.appointment_date));
   const recentAppts = [...appointments]
+    .filter(a => !q || (a.doctor_id?.name||"").toLowerCase().includes(q) || (a.hospital_id?.hospital_name||"").toLowerCase().includes(q) || (a.doctor_id?.specialization||"").toLowerCase().includes(q))
     .sort((a,b) => new Date(b.createdAt||b.appointment_date) - new Date(a.createdAt||a.appointment_date))
     .slice(0,5);
+  const filteredHospitals = hospitals.filter(h => !q || (h.hospital_name||"").toLowerCase().includes(q) || (h.location||"").toLowerCase().includes(q));
   const avgRating = feedbacks.length
     ? (feedbacks.reduce((s,f) => s+(f.rating||0), 0) / feedbacks.length).toFixed(1)
     : null;

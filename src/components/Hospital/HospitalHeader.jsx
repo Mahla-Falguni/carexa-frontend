@@ -4,7 +4,7 @@ import {
   FaUserMd, FaCalendarAlt, FaClock, FaHospital,
   FaSpinner, FaChevronRight, FaStethoscope,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -44,8 +44,9 @@ const useDebounce = (value, delay = 380) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-const HospitalHeader = ({ isOpen, setIsOpen }) => {
+const HospitalHeader = ({ isOpen, setIsOpen, onSearch }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const adminName    = localStorage.getItem(NAME_KEY)          || "Hospital Admin";
   const hospitalName = localStorage.getItem("HospitalOrgName") || "My Hospital";
@@ -68,6 +69,16 @@ const HospitalHeader = ({ isOpen, setIsOpen }) => {
 
   // ── search ─────────────────────────────────────────────────────────────────
   const [query,        setQuery]        = useState("");
+
+  const handleQueryChange = (val) => {
+    setQuery(val);
+    if (onSearch) onSearch(val);
+  };
+
+  useEffect(() => {
+    setQuery("");
+    if (onSearch) onSearch("");
+  }, [location.pathname]);
   const [results,      setResults]      = useState({ doctors: [], appointments: [] });
   const [searching,    setSearching]    = useState(false);
   const [showDrop,     setShowDrop]     = useState(false);
@@ -164,7 +175,7 @@ const HospitalHeader = ({ isOpen, setIsOpen }) => {
   }, []);
 
   const clearSearch = () => {
-    setQuery("");
+    handleQueryChange("");
     setShowDrop(false);
     setResults({ doctors: [], appointments: [] });
     setActiveFilter("ALL");
@@ -260,7 +271,7 @@ const HospitalHeader = ({ isOpen, setIsOpen }) => {
             <input
               type="text"
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => handleQueryChange(e.target.value)}
               onFocus={() => { if (query.length >= 2) setShowDrop(true); }}
               placeholder="Search doctors, appointments…"
               className="bg-transparent w-full text-sm text-slate-700 placeholder-slate-400 outline-none"

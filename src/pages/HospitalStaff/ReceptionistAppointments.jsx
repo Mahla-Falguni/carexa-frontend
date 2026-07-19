@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaCalendarAlt, FaClock, FaUserAlt, FaSearch,
@@ -443,6 +444,7 @@ const PaymentModal = ({ appt, existingPayment, onClose, onSuccess }) => {
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────────────────
 const ReceptionistAppointments = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -488,19 +490,22 @@ const ReceptionistAppointments = () => {
 
     const filtered = appointments.filter(a => {
         const matchFilter = filter === "ALL" || a.appointment_status === filter;
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
         return matchFilter && (
             !q ||
             (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
             (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
             (a.patient_id?.patient_phone || "").includes(q) ||
             (a.doctor_id?.name || "").toLowerCase().includes(q) ||
-            (a.doctor_id?.specialization || "").toLowerCase().includes(q)
+            (a.doctor_id?.specialization || "").toLowerCase().includes(q) ||
+            (a.appointment_date || "").includes(q) ||
+            (a.token_number ? String(a.token_number) : "").includes(q) ||
+            (a.appointment_status || "").toLowerCase().includes(q)
         );
     });
 
     // Reset to page 1 whenever search or filter changes
-    useEffect(() => { setPage(1); }, [search, filter]);
+    useEffect(() => { setPage(1); }, [search, filter, globalSearch]);
 
     const totalPages = Math.ceil(filtered.length / PER_PAGE);
     const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);

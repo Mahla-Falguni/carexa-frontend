@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaCalendarAlt, FaUserMd, FaHospital, FaSearch,
@@ -8,6 +9,7 @@ import {
 
 const AdminAppointmentSlots = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [slots, setSlots] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -73,7 +75,7 @@ const AdminAppointmentSlots = () => {
 
     const filtered = slots.filter(s => {
         const matchStatus = filterStatus === "ALL" || s.slot_status === filterStatus;
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).trim().toLowerCase();
         const matchSearch =
             s.doctor_id?.name?.toLowerCase().includes(q) ||
             s.doctor_id?.specialization?.toLowerCase().includes(q) ||

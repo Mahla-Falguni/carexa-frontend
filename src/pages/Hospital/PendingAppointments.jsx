@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaClock, FaCheckCircle, FaTimesCircle, FaEye,
@@ -8,6 +9,7 @@ import {
 
 const PendingAppointments = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [appointments, setAppointments]       = useState([]);
     const [loading, setLoading]                 = useState(true);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -94,11 +96,15 @@ const PendingAppointments = () => {
     };
 
     const filtered = appointments.filter(a => {
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).trim().toLowerCase();
+        if (!q) return true;
         return (
-            a.patient_id?.patient_name?.toLowerCase().includes(q) ||
-            a.doctor_id?.name?.toLowerCase().includes(q) ||
-            a.doctor_id?.specialization?.toLowerCase().includes(q)
+            (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
+            (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
+            (a.patient_id?.patient_phone || "").includes(q) ||
+            (a.doctor_id?.name || "").toLowerCase().includes(q) ||
+            (a.doctor_id?.specialization || "").toLowerCase().includes(q) ||
+            (a.appointment_date || "").includes(q)
         );
     });
 

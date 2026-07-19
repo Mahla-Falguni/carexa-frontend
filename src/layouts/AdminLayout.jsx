@@ -6,6 +6,7 @@ import AdminFooter from "../components/Admin/AdminFooter";
 
 const AdminLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState("");
 
   return (
     <div className="flex">
@@ -17,10 +18,10 @@ const AdminLayout = () => {
       <div className="flex-1">
 
         {/* Header with Toggle Button */}
-        <AdminHeader isOpen={isOpen} setIsOpen={setIsOpen} />
+        <AdminHeader isOpen={isOpen} setIsOpen={setIsOpen} onSearch={setGlobalSearch} />
 
         <div className="p-6">
-          <Outlet />
+          <Outlet context={{ globalSearch }} />
         </div>
         
 

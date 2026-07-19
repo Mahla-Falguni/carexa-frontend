@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaHospital, FaCheckCircle, FaTimesCircle,
@@ -8,6 +9,7 @@ import {
 
 const HospitalRequests = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -94,7 +96,7 @@ const HospitalRequests = () => {
 
     const filtered = requests.filter(r => {
         const matchStatus = filterStatus === "ALL" || r.request_status === filterStatus;
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).toLowerCase();
         const matchSearch =
             r.hospital_name?.toLowerCase().includes(q) ||
             r.hospital_email?.toLowerCase().includes(q) ||

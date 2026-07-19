@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars, FaBell, FaSearch, FaUserCircle, FaSignOutAlt, FaUserCog, FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const AdminHeader = ({ isOpen, setIsOpen }) => {
+const AdminHeader = ({ isOpen, setIsOpen, onSearch }) => {
 
     const [showNotifications, setShowNotifications] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const adminName  = localStorage.getItem("AdminName")  || "Admin";
+
+    useEffect(() => {
+        setSearchQuery("");
+        if (onSearch) onSearch("");
+    }, [location.pathname]);
+
+    const handleSearchChange = (val) => {
+        setSearchQuery(val);
+        if (onSearch) onSearch(val);
+    };
 
     const notifications = [
         { msg: "New hospital registration request",  time: "2 min ago",  color: "bg-blue-500" },
@@ -60,12 +71,12 @@ const AdminHeader = ({ isOpen, setIsOpen }) => {
                     <input
                         type="text"
                         value={searchQuery}
-                        onChange={e => setSearchQuery(e.target.value)}
+                        onChange={e => handleSearchChange(e.target.value)}
                         placeholder="Search hospitals, doctors..."
                         className="search-input bg-transparent w-full text-sm text-slate-600 placeholder-slate-400"
                     />
                     {searchQuery && (
-                        <button onClick={() => setSearchQuery("")} className="text-slate-400 hover:text-slate-600">
+                        <button onClick={() => handleSearchChange("")} className="text-slate-400 hover:text-slate-600">
                             <FaTimes size={11} />
                         </button>
                     )}

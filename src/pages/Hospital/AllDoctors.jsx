@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useOutletContext, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
@@ -7,10 +8,10 @@ import {
     FaSearch, FaEnvelope, FaPhone, FaRupeeSign,
     FaTimes, FaSave
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 const AllDoctors = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -108,11 +109,14 @@ const AllDoctors = () => {
     };
 
     const filtered = doctors.filter(d => {
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).trim().toLowerCase();
+        if (!q) return true;
         return (
-            d.name?.toLowerCase().includes(q) ||
-            d.specialization?.toLowerCase().includes(q) ||
-            d.email?.toLowerCase().includes(q)
+            (d.name || "").toLowerCase().includes(q) ||
+            (d.specialization || "").toLowerCase().includes(q) ||
+            (d.email || "").toLowerCase().includes(q) ||
+            (d.phone || "").includes(q) ||
+            (d.consultation_fee ? String(d.consultation_fee) : "").includes(q)
         );
     });
 

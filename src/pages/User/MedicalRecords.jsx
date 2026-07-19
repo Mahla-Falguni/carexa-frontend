@@ -110,6 +110,8 @@ const Pagination = ({ page, totalPages, filtered, onPageChange }) => {
 
 const MedicalRecords = () => {
   const patientName = localStorage.getItem("Name") || "Patient";
+  const outletContext = useOutletContext() || {};
+  const globalSearch  = outletContext.globalSearch || "";
 
   const [activeTab,   setActiveTab]   = useState("history");
   const [search,      setSearch]      = useState("");
@@ -128,7 +130,7 @@ const MedicalRecords = () => {
   useEffect(() => { loadAll(); }, []);
 
   // Reset page when search or tab changes
-  useEffect(() => { setHistPage(1); setVisitPage(1); setApptPage(1); }, [search, activeTab]);
+  useEffect(() => { setHistPage(1); setVisitPage(1); setApptPage(1); }, [search, activeTab, globalSearch]);
 
   const loadAll = () => { loadHistories(); loadVisits(); loadAppointments(); };
 
@@ -155,7 +157,7 @@ const MedicalRecords = () => {
     } catch { setNextAppts([]); } finally { setApptLoad(false); }
   };
 
-  const q = search.toLowerCase();
+  const q = (globalSearch || search).trim().toLowerCase();
 
   const filteredHistories = histories.filter(h => !q||(h.diagnosis||"").toLowerCase().includes(q)||(h.medications||"").toLowerCase().includes(q)||(h.notes||"").toLowerCase().includes(q)||(h.doctor_id?.name||"").toLowerCase().includes(q)||(h.hospital_id?.hospital_name||"").toLowerCase().includes(q));
   const filteredVisits    = visits.filter(v => !q||(v.symptoms||"").toLowerCase().includes(q)||(v.diagnosis||"").toLowerCase().includes(q)||(v.treatment||"").toLowerCase().includes(q)||(v.doctor_id?.name||"").toLowerCase().includes(q));

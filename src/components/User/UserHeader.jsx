@@ -1,13 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-const UserHeader = ({ onToggleSidebar, sidebarOpen }) => {
+const UserHeader = ({ onToggleSidebar, sidebarOpen, onSearch }) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const username = localStorage.getItem('username') || 'Patient'
   const initials = username.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const dropRef = useRef(null)
+
+  useEffect(() => {
+    setSearchQuery('')
+    if (onSearch) onSearch('')
+  }, [location.pathname])
+
+  const handleSearchChange = (val) => {
+    setSearchQuery(val)
+    if (onSearch) onSearch(val)
+  }
 
   useEffect(() => {
     const handler = (e) => {
@@ -248,7 +260,12 @@ const UserHeader = ({ onToggleSidebar, sidebarOpen }) => {
 
         <div className="uh-search-wrap">
           <span className="uh-search-icon">🔍</span>
-          <input className="uh-search" placeholder="Search doctors, hospitals…" />
+          <input
+            className="uh-search"
+            placeholder="Search doctors, hospitals, appointments…"
+            value={searchQuery}
+            onChange={(e) => handleSearchChange(e.target.value)}
+          />
         </div>
 
         <button className="uh-notif" aria-label="Notifications">

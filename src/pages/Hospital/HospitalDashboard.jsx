@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import {
     FaUserMd, FaCalendarCheck, FaClock, FaRedo,
     FaBell, FaClipboardList, FaChartLine, FaCheckCircle,
@@ -37,6 +38,7 @@ const statusStyle = (status) => ({
 }[status] || { bg: "#f1f5f9", color: "#475569", label: status || "—" });
 
 const HospitalDashboard = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [stats, setStats]                 = useState(null);
     const [todayAppts, setTodayAppts]       = useState([]);
     const [weekly, setWeekly]               = useState([]);
@@ -98,6 +100,19 @@ const HospitalDashboard = () => {
         red:   { bg: "#fef2f2", border: "#fecaca", dot: "#dc2626", text: "#991b1b" },
         green: { bg: "#f0fdf4", border: "#bbf7d0", dot: "#16a34a", text: "#14532d" },
     };
+
+    const q = (globalSearch || "").trim().toLowerCase();
+    const filteredTodayAppts = todayAppts.filter(a =>
+        !q ||
+        (a.patient || "").toLowerCase().includes(q) ||
+        (a.doctor || "").toLowerCase().includes(q) ||
+        (a.status || "").toLowerCase().includes(q)
+    );
+    const filteredDoctors = doctors.filter(d =>
+        !q ||
+        (d.name || "").toLowerCase().includes(q) ||
+        (d.specialization || "").toLowerCase().includes(q)
+    );
 
     return (
         <div style={{ minHeight: "100vh", background: "#f0f4f8", fontFamily: "'Nunito', sans-serif" }}>
@@ -278,12 +293,12 @@ const HospitalDashboard = () => {
                             </div>
                         </div>
                         <div style={{ overflowY: "auto", maxHeight: 280 }}>
-                            {todayAppts.length === 0 ? (
+                            {filteredTodayAppts.length === 0 ? (
                                 <div style={{ textAlign: "center", padding: "36px 20px" }}>
                                     <FaCalendarAlt size={28} color="#cbd5e1" style={{ marginBottom: 8 }} />
-                                    <p style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>No appointments today</p>
+                                    <p style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>No appointments found</p>
                                 </div>
-                            ) : todayAppts.map((a, i) => {
+                            ) : filteredTodayAppts.map((a, i) => {
                                 const s = statusStyle(a.status);
                                 return (
                                     <div key={i} className="row-hover" style={{
@@ -380,12 +395,12 @@ const HospitalDashboard = () => {
                             </div>
                         </div>
                         <div style={{ overflowY: "auto", maxHeight: 280 }}>
-                            {doctors.length === 0 ? (
+                            {filteredDoctors.length === 0 ? (
                                 <div style={{ textAlign: "center", padding: "36px 20px" }}>
                                     <FaUserMd size={28} color="#cbd5e1" style={{ marginBottom: 8 }} />
-                                    <p style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>No doctors added yet</p>
+                                    <p style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>No doctors found</p>
                                 </div>
-                            ) : doctors.map((doc, i) => (
+                            ) : filteredDoctors.map((doc, i) => (
                                 <div key={i} className="row-hover" style={{
                                     padding: "13px 18px", borderBottom: "1px solid #f8fafc",
                                     display: "flex", alignItems: "center", gap: 11

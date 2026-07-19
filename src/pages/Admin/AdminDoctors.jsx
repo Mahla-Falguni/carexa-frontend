@@ -6,10 +6,11 @@ import {
   FaUserMd, FaEnvelope, FaPhone, FaRupeeSign,
   FaHospital, FaSearch, FaEye, FaTrash
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const AdminDoctors = () => {
 
+  const { globalSearch = "" } = useOutletContext() || {};
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,7 +65,7 @@ const AdminDoctors = () => {
   };
 
   const filtered = doctors.filter(d => {
-    const q = searchQuery.toLowerCase();
+    const q = (globalSearch || searchQuery).toLowerCase();
     return (
       d.name?.toLowerCase().includes(q) ||
       d.specialization?.toLowerCase().includes(q) ||

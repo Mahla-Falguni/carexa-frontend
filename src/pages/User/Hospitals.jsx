@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams, useOutletContext } from "react-router-dom";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 
 import {
@@ -11,6 +11,10 @@ import {
 
 const Hospitals = () => {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const outletContext = useOutletContext() || {};
+  const globalSearch = outletContext.globalSearch || "";
+
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -22,6 +26,11 @@ const Hospitals = () => {
 
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("UserToken");
+
+  useEffect(() => {
+    const urlQuery = searchParams.get("search");
+    if (urlQuery) setSearch(urlQuery);
+  }, [searchParams]);
 
   // ── Fetch hospitals — no token needed for public view ────────────────────
   const getHospitals = async () => {
@@ -68,10 +77,19 @@ const Hospitals = () => {
     setShowModal(true);
   };
 
-  const filtered = hospitals.filter((h) =>
-    h.hospital_name?.toLowerCase().includes(search.toLowerCase()) ||
-    h.hospital_address?.toLowerCase().includes(search.toLowerCase())
-  );
+  const activeSearch = (globalSearch || search).trim().toLowerCase();
+
+  const filtered = hospitals.filter((h) => {
+    if (!activeSearch) return true;
+    return (
+      (h.hospital_name || "").toLowerCase().includes(activeSearch) ||
+      (h.hospital_address || "").toLowerCase().includes(activeSearch) ||
+      (h.hospital_city || "").toLowerCase().includes(activeSearch) ||
+      (h.hospital_state || "").toLowerCase().includes(activeSearch) ||
+      (h.hospital_email || "").toLowerCase().includes(activeSearch) ||
+      (h.hospital_phone || "").includes(activeSearch)
+    );
+  });
 
   return (
     <>

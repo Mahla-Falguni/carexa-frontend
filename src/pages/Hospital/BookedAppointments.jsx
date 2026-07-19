@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FaCalendarCheck, FaEye, FaTrash } from "react-icons/fa";
+import { useOutletContext } from "react-router-dom";
+import { FaCalendarCheck, FaEye, FaTrash, FaSearch } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 const BookedAppointments = () => {
-
+    const { globalSearch = "" } = useOutletContext() || {};
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
 
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -180,13 +182,27 @@ const BookedAppointments = () => {
         }
     };
 
+    const filtered = appointments.filter(a => {
+        const q = (globalSearch || search).trim().toLowerCase();
+        if (!q) return true;
+        return (
+            (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
+            (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
+            (a.patient_id?.patient_phone || "").includes(q) ||
+            (a.doctor_id?.name || "").toLowerCase().includes(q) ||
+            (a.doctor_id?.specialization || "").toLowerCase().includes(q) ||
+            (a.appointment_date || "").includes(q) ||
+            (a.appointment_status || "").toLowerCase().includes(q)
+        );
+    });
+
     return (
 
         <div className="p-6 bg-gray-100 min-h-screen">
 
             <div className="bg-white shadow-lg rounded-xl p-6">
 
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
 
                     <div className="flex items-center gap-3">
 
@@ -198,22 +214,35 @@ const BookedAppointments = () => {
                             </h1>
 
                             <p className="text-gray-500 text-sm">
-                                Total Appointments : {appointments.length}
+                                Total Appointments : {filtered.length} of {appointments.length}
                             </p>
                         </div>
 
                     </div>
 
-                    <button
-                        onClick={downloadExcel}
-                        disabled={appointments.length === 0}
-                        className={`px-4 py-2 rounded text-white ${appointments.length === 0
-                            ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-green-600 hover:bg-green-700"
-                            }`}
-                    >
-                        Export Excel
-                    </button>
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <div className="relative flex-1 md:w-64">
+                            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={13} />
+                            <input
+                                type="text"
+                                placeholder="Search appointments..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <button
+                            onClick={downloadExcel}
+                            disabled={appointments.length === 0}
+                            className={`px-4 py-2 rounded text-white ${appointments.length === 0
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-green-600 hover:bg-green-700"
+                                }`}
+                        >
+                            Export Excel
+                        </button>
+                    </div>
 
                 </div>
 
@@ -265,9 +294,9 @@ const BookedAppointments = () => {
 
                             <tbody>
 
-                                {appointments.length > 0 ? (
+                                {filtered.length > 0 ? (
 
-                                    appointments.map((appointment) => (
+                                    filtered.map((appointment) => (
 
                                         <tr
                                             key={appointment._id}

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaStar, FaRegStar, FaSearch, FaCheckCircle,
     FaCalendarAlt, FaClock, FaStethoscope,
-    FaHospital, FaTimes, FaEdit, FaFilter
+    FaHospital, FaTimes, FaEdit
 } from "react-icons/fa";
 import { MdRefresh } from "react-icons/md";
 
@@ -167,6 +168,7 @@ const FeedbackModal = ({ appt, onClose, onSuccess }) => {
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────────────────
 const Feedback = () => {
+    const { globalSearch } = useOutletContext() || {};
     const [appointments, setAppointments] = useState([]);
     const [feedbacks,    setFeedbacks]    = useState([]);
     const [loading,      setLoading]      = useState(true);
@@ -199,7 +201,7 @@ const Feedback = () => {
     useEffect(() => { load(); }, []);
 
     // Reset pages when search or tab changes
-    useEffect(() => { setPendingPage(1); setSubmittedPage(1); }, [search, tab]);
+    useEffect(() => { setPendingPage(1); setSubmittedPage(1); }, [search, tab, globalSearch]);
 
     const submittedApptIds = new Set(feedbacks.map(f =>
         typeof f.appointment_id === "object" ? f.appointment_id?._id : f.appointment_id

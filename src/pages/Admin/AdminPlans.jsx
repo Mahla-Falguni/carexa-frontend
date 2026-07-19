@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import Swal from "sweetalert2";
 import {
@@ -11,6 +12,7 @@ import {
 
 const AdminPlans = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [plans, setPlans]               = useState([]);
     const [planStats, setPlanStats]       = useState({});
     const [loading, setLoading]           = useState(true);
@@ -135,9 +137,10 @@ const AdminPlans = () => {
         setShowEditModal(true);
     };
 
-    const filtered = plans.filter(p =>
-        p.plan_name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filtered = plans.filter(p => {
+        const q = (globalSearch || searchQuery).toLowerCase();
+        return p.plan_name?.toLowerCase().includes(q);
+    });
 
     const statusBadge = (status) =>
         status === "ACTIVE"

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaRupeeSign, FaCheckCircle, FaSearch, FaReceipt,
@@ -26,6 +27,7 @@ const METHOD_CFG = {
 const PER_PAGE = 8;
 
 export default function HospitalAdminPayments() {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -47,7 +49,7 @@ export default function HospitalAdminPayments() {
     };
 
     useEffect(() => { fetchPayments(); }, []);
-    useEffect(() => { setPage(1); }, [search, methodFilter, doctorFilter]);
+    useEffect(() => { setPage(1); }, [search, methodFilter, doctorFilter, globalSearch]);
 
     // unique doctors for filter dropdown
     const doctors = [...new Map(payments.map(p => [p.doctor_id?._id, p.doctor_id]).filter(([k]) => k)).values()];
@@ -58,7 +60,7 @@ export default function HospitalAdminPayments() {
     const filtered = payments.filter(p => {
         const mOk = methodFilter === "ALL" || p.payment_method === methodFilter;
         const dOk = doctorFilter === "ALL" || p.doctor_id?._id === doctorFilter;
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
         return mOk && dOk && (!q ||
             (p.patient_id?.patient_name || "").toLowerCase().includes(q) ||
             (p.patient_id?.patient_phone || "").includes(q) ||

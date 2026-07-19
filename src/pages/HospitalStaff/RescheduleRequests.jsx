@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaExchangeAlt, FaCheckCircle, FaTimesCircle, FaHourglassHalf,
@@ -172,6 +173,7 @@ const DetailModal = ({ req, onClose, onApprove, onReject, loading }) => {
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────────────────
 const RescheduleRequests = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
@@ -241,12 +243,13 @@ const RescheduleRequests = () => {
 
     const filtered = requests.filter(r => {
         const matchFilter = filter === "ALL" || r.status === filter;
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
         const pat = r.appointment_id?.patient_id || r.requested_by;
         const matchSearch = !q
             || (pat?.patient_name || "").toLowerCase().includes(q)
             || (pat?.patient_email || "").toLowerCase().includes(q)
-            || (r.reason || "").toLowerCase().includes(q);
+            || (r.reason || "").toLowerCase().includes(q)
+            || (r.status || "").toLowerCase().includes(q);
         return matchFilter && matchSearch;
     });
 

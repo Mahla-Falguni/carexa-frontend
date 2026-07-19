@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import {
     FaStar, FaRegStar, FaSearch, FaUserAlt,
     FaCalendarAlt, FaClock, FaFilter, FaChartBar
@@ -28,6 +29,7 @@ const RATING_COLOR = { 1:"#dc2626", 2:"#d97706", 3:"#0891b2", 4:"#059669", 5:"#7
 const RATING_LABEL = { 1:"Poor", 2:"Fair", 3:"Good", 4:"Very Good", 5:"Excellent" };
 
 const DoctorFeedbacks = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [feedbacks, setFeedbacks] = useState([]);
     const [loading,   setLoading]   = useState(true);
     const [search,    setSearch]    = useState("");
@@ -48,7 +50,7 @@ const DoctorFeedbacks = () => {
     };
 
     useEffect(() => { load(); }, []);
-    useEffect(() => { setPage(1); }, [search, filter]);
+    useEffect(() => { setPage(1); }, [search, filter, globalSearch]);
 
     // Stats
     const total     = feedbacks.length;
@@ -59,7 +61,7 @@ const DoctorFeedbacks = () => {
         pct:   total ? Math.round((feedbacks.filter(f => f.rating === r).length / total) * 100) : 0
     }));
 
-    const q        = search.toLowerCase();
+    const q        = (globalSearch || search).trim().toLowerCase();
     const filtered = feedbacks.filter(f => {
         const matchRating = filter === 0 || f.rating === filter;
         return matchRating && (!q ||

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaRupeeSign, FaSearch, FaReceipt,
@@ -26,6 +27,7 @@ const METHOD_CFG = {
 const PER_PAGE = 8;
 
 export default function DoctorPayments() {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [payments,     setPayments]     = useState([]);
     const [loading,      setLoading]      = useState(true);
     const [search,       setSearch]       = useState("");
@@ -49,14 +51,14 @@ export default function DoctorPayments() {
     };
 
     useEffect(() => { fetchPayments(); }, []);
-    useEffect(() => { setPage(1); }, [search, methodFilter]);
+    useEffect(() => { setPage(1); }, [search, methodFilter, globalSearch]);
 
     const cashCount   = payments.filter(p => p.payment_method === "CASH").length;
     const uniquePts   = new Set(payments.map(p => p.patient_id?._id).filter(Boolean)).size;
 
     const filtered = payments.filter(p => {
         const mOk = methodFilter === "ALL" || p.payment_method === methodFilter;
-        const q   = search.toLowerCase();
+        const q   = (globalSearch || search).trim().toLowerCase();
         return mOk && (!q ||
             (p.patient_id?.patient_name  || "").toLowerCase().includes(q) ||
             (p.patient_id?.patient_phone || "").includes(q) ||

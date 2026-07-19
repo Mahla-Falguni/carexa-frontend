@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
     FaUserMd, FaSearch, FaEnvelope, FaPhone,
@@ -8,6 +9,7 @@ import {
 
 const AvailableDoctors = () => {
 
+    const { globalSearch = "" } = useOutletContext() || {};
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -30,10 +32,13 @@ const AvailableDoctors = () => {
     useEffect(() => { getAvailableDoctors(); }, []);
 
     const filtered = doctors.filter(d => {
-        const q = searchQuery.toLowerCase();
+        const q = (globalSearch || searchQuery).trim().toLowerCase();
+        if (!q) return true;
         return (
-            d.name?.toLowerCase().includes(q) ||
-            d.specialization?.toLowerCase().includes(q)
+            (d.name || "").toLowerCase().includes(q) ||
+            (d.specialization || "").toLowerCase().includes(q) ||
+            (d.email || "").toLowerCase().includes(q) ||
+            (d.phone || "").includes(q)
         );
     });
 

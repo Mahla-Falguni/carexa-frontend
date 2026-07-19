@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaRupeeSign, FaCheckCircle, FaClock, FaTimesCircle,
@@ -175,6 +176,7 @@ const ReceiptModal = ({ payment, onClose }) => {
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────────────────
 const ReceptionistPayments = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [payments,    setPayments]    = useState([]);
     const [loading,     setLoading]     = useState(true);
     const [search,      setSearch]      = useState("");
@@ -197,7 +199,7 @@ const ReceptionistPayments = () => {
     };
 
     useEffect(() => { fetchPayments(); }, []);
-    useEffect(() => { setPage(1); }, [search, methodFilter]);
+    useEffect(() => { setPage(1); }, [search, methodFilter, globalSearch]);
 
     // ── Stats ──────────────────────────────────────────────────────────────
     const totalRevenue  = payments.reduce((s, p) => s + (p.amount || 0), 0);
@@ -209,7 +211,7 @@ const ReceptionistPayments = () => {
     // ── Filter ─────────────────────────────────────────────────────────────
     const filtered = payments.filter(p => {
         const matchMethod = methodFilter === "ALL" || p.payment_method === methodFilter;
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
         return matchMethod && (!q ||
             (p.patient_id?.patient_name  || "").toLowerCase().includes(q) ||
             (p.patient_id?.patient_phone || "").includes(q) ||

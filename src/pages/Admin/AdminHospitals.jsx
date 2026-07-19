@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,6 +12,7 @@ import {
 
 const AdminHospitals = () => {
 
+  const { globalSearch = "" } = useOutletContext() || {};
   const [hospitals, setHospitals]     = useState([]);
   const [loading, setLoading]         = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -115,7 +117,7 @@ const AdminHospitals = () => {
   };
 
   const filtered = hospitals.filter(h => {
-    const q = searchQuery.toLowerCase();
+    const q = (globalSearch || searchQuery).toLowerCase();
     return (
       h.hospital_name?.toLowerCase().includes(q) ||
       h.hospital_email?.toLowerCase().includes(q) ||

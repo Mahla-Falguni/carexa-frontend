@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
   FaUserInjured, FaFileMedical, FaWalking, FaPlus, FaTimes,
@@ -121,6 +122,7 @@ const FollowUpCard = ({ appt, idx, expanded, onToggle, isUpcoming }) => {
 
 // ── MAIN COMPONENT ────────────────────────────────────────────────────────────
 const PatientHistory = () => {
+  const { globalSearch = "" } = useOutletContext() || {};
   const [patients,      setPatients]      = useState([]);
   const [patientsLoad,  setPatientsLoad]  = useState(true);
   const [selected,      setSelected]      = useState(null);
@@ -273,7 +275,7 @@ const PatientHistory = () => {
   const upcomingFU   = followUps.filter(a => new Date(a.appointment_date) >= today0 && !["CANCELLED", "COMPLETED"].includes(a.appointment_status));
   const pastFU       = followUps.filter(a => new Date(a.appointment_date) < today0  ||  ["CANCELLED", "COMPLETED"].includes(a.appointment_status));
   const filteredPats = patients.filter(p => {
-    const q = search.toLowerCase();
+    const q = (globalSearch || search).trim().toLowerCase();
     return !q || (p.patient_name || "").toLowerCase().includes(q) || (p.patient_email || "").toLowerCase().includes(q) || (p.patient_phone || "").includes(q);
   });
 

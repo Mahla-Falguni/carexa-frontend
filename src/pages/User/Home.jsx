@@ -9,7 +9,17 @@ import { useState } from "react";
 
 const Home = () => {
     const [showRoleModal, setShowRoleModal] = useState(false);
+    const [homeSearch, setHomeSearch]       = useState("");
     const navigate = useNavigate();
+
+    const handleHomeSearchSubmit = (e) => {
+        e.preventDefault();
+        if (homeSearch.trim()) {
+            const token = localStorage.getItem("UserToken");
+            const targetPath = token ? "/userdashboard/hospitals" : "/hospitals";
+            navigate(`${targetPath}?search=${encodeURIComponent(homeSearch.trim())}`);
+        }
+    };
 
     const roles = [
         
@@ -126,9 +136,24 @@ const Home = () => {
                             Your Health,<br />
                             <span className="text-blue-400">Our Priority.</span>
                         </h1>
-                        <p className="fade-up-3 text-slate-300 text-lg md:text-xl leading-relaxed mb-10 max-w-xl">
+                        <p className="fade-up-3 text-slate-300 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
                             Carexa connects you with top hospitals and verified doctors. Book appointments, manage your health records, and get care — all in one place.
                         </p>
+                        {/* ── HERO SEARCH BAR ── */}
+                        <form onSubmit={handleHomeSearchSubmit} className="fade-up-3 mb-8 max-w-xl flex gap-2 bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-2xl">
+                            <input
+                                type="text"
+                                value={homeSearch}
+                                onChange={(e) => setHomeSearch(e.target.value)}
+                                placeholder="Search hospitals by name, city or location..."
+                                className="w-full bg-transparent px-4 py-3 text-white placeholder-slate-300 text-sm outline-none"
+                            />
+                            <button
+                                type="submit"
+                                className="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-semibold text-sm transition shrink-0 flex items-center gap-2">
+                                Search Hospitals
+                            </button>
+                        </form>
                         <div className="fade-up-3 flex flex-wrap gap-4">
                             <Link to="/register"
                                 className="flex items-center gap-2 bg-blue-500 hover:bg-blue-400 text-white px-8 py-4 rounded-xl font-semibold text-base transition shadow-lg shadow-blue-500/30">

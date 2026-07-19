@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
     FaCalendarAlt, FaClock, FaHospital, FaUserMd,
@@ -15,20 +15,16 @@ const PER_PAGE = 5;
    RESCHEDULE SLOT-PICKER MODAL
 ───────────────────────────────────────────── */
 const RescheduleModal = ({ appt, onClose, onConfirm }) => {
-    const [slots, setSlots]               = useState([]);
+    const [hospitalId, setHospitalId] = useState(null);
+    const [slots, setSlots]           = useState([]);
     const [loadingSlots, setLoadingSlots] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
-    const [weekOffset, setWeekOffset]     = useState(0);
-    const [submitting, setSubmitting]     = useState(false);
-
-    const token   = localStorage.getItem("UserToken");
-    const headers = { Authorization: `Bearer ${token}` };
+    const [weekOffset, setWeekOffset] = useState(0);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const days  = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(today);
         d.setDate(today.getDate() + weekOffset * 7 + i);
         return d;

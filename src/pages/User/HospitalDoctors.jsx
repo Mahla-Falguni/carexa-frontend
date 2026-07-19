@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getImageUrl, handleImageError } from "../../utils/imageUtils";
 import {
@@ -12,6 +12,8 @@ import {
 const HospitalDoctors = () => {
     const { hospitalId } = useParams();
     const navigate       = useNavigate();
+    const outletContext  = useOutletContext() || {};
+    const globalSearch   = outletContext.globalSearch || "";
 
     const [hospital,       setHospital]       = useState(null);
     const [doctors,        setDoctors]        = useState([]);
@@ -114,10 +116,18 @@ const HospitalDoctors = () => {
         }
     };
 
-    const filtered = doctors.filter(d =>
-        d.name?.toLowerCase().includes(search.toLowerCase()) ||
-        d.specialization?.toLowerCase().includes(search.toLowerCase())
-    );
+    const activeSearch = (globalSearch || search).trim().toLowerCase();
+
+    const filtered = doctors.filter(d => {
+        if (!activeSearch) return true;
+        return (
+            (d.name || "").toLowerCase().includes(activeSearch) ||
+            (d.specialization || "").toLowerCase().includes(activeSearch) ||
+            (d.qualification || "").toLowerCase().includes(activeSearch) ||
+            (d.email || "").toLowerCase().includes(activeSearch) ||
+            (d.phone || "").includes(activeSearch)
+        );
+    });
 
     const formatDate = (dateStr) => {
         if (!dateStr) return "—";

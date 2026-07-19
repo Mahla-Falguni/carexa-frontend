@@ -116,23 +116,17 @@ const MySlots = () => {
   };
 
   const filtered = slots.filter(s => {
-    const activeQuery = globalSearch || search;
-    const filtered = slots.filter(s => {
-      const matchFilter = filter === "ALL" || s.slot_status === filter;
-      const q = activeQuery.toLowerCase();
-      return matchFilter && (!q
-        || fmt(s.appointment_date).toLowerCase().includes(q)
-        || (s.start_time || "").toLowerCase().includes(q)
-        || (s.booked_by?.patient_name || "").toLowerCase().includes(q)
-        || (s.slot_status || "").toLowerCase().includes(q));
-    });
     const matchFilter = filter === "ALL" || s.slot_status === filter;
-    const q = search.toLowerCase();
-    return matchFilter && (!q
-      || fmt(s.appointment_date).toLowerCase().includes(q)
-      || (s.start_time || "").toLowerCase().includes(q)
-      || (s.booked_by?.patient_name || "").toLowerCase().includes(q)
-      || (s.slot_status || "").toLowerCase().includes(q));
+    const q = (globalSearch || search).trim().toLowerCase();
+    if (!q) return matchFilter;
+    return matchFilter && (
+      fmt(s.appointment_date).toLowerCase().includes(q) ||
+      (s.start_time || "").toLowerCase().includes(q) ||
+      (s.end_time || "").toLowerCase().includes(q) ||
+      (s.booked_by?.patient_name || "").toLowerCase().includes(q) ||
+      (s.booked_by?.patient_email || "").toLowerCase().includes(q) ||
+      (s.slot_status || "").toLowerCase().includes(q)
+    );
   });
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE);

@@ -206,6 +206,7 @@ const HospitalAccount = () => {
                             <div className="flex flex-col items-center -mt-14 pb-6 px-6">
                                 <div className="relative">
                                     <div className="avatar-ring">
+                                        {imagePreview ? (
                                             <img
                                                 src={imagePreview}
                                                 alt="Hospital"

@@ -13,6 +13,7 @@ const UserLayout = () => {
   const token = localStorage.getItem('UserToken')
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [globalSearch, setGlobalSearch] = useState('')
 
   // Redirect to login if not authenticated
 
@@ -68,6 +69,8 @@ const UserLayout = () => {
 
           sidebarOpen={sidebarOpen}
 
+          onSearch={setGlobalSearch}
+
         />
 
 
@@ -86,7 +89,7 @@ const UserLayout = () => {
 
           {/* Child route pages render here */}
 
-          <Outlet />
+          <Outlet context={{ globalSearch }} />
 
         </main>
 

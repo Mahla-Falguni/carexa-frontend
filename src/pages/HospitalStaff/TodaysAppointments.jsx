@@ -98,21 +98,16 @@ const TodayAppointments = () => {
     };
 
     const filtered = appointments.filter(a => {
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
+        if (!q) return true;
         return (
             (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
             (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
-            (a.patient_id?.patient_phone || "").includes(q)
+            (a.patient_id?.patient_phone || "").includes(q) ||
+            (a.start_time || "").toLowerCase().includes(q) ||
+            (a.appointment_status || "").toLowerCase().includes(q) ||
+            (a.token_number ? String(a.token_number) : "").includes(q)
         );
-        const activeQuery = globalSearch || search;
-        const filtered = appointments.filter(a => {
-            const q = activeQuery.toLowerCase();
-            return (
-                (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
-                (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
-                (a.patient_id?.patient_phone || "").includes(q)
-            );
-        });
     });
 
 

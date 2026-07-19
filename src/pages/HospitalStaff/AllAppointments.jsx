@@ -54,6 +54,7 @@ const Paginator = ({ page, totalPages, total, onPageChange }) => {
 
 
 const AllAppointments = () => {
+    const { globalSearch = "" } = useOutletContext() || {};
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -62,18 +63,6 @@ const AllAppointments = () => {
     const [showModal, setShowModal] = useState(false);
     const [completing, setCompleting] = useState(null);
     const [page, setPage] = useState(1);
-    const AllAppointments = ({ searchQuery = "" }) => {
-        // Use it in your existing filter:
-        const filtered = appointments.filter(a => {
-            const q = (searchQuery || search).toLowerCase();
-            return (
-                a.patient_id?.patient_name?.toLowerCase().includes(q) ||
-                a.patient_id?.patient_email?.toLowerCase().includes(q) ||
-                a.patient_id?.patient_phone?.includes(q)
-            );
-        });
-
-    };
 
     const token = localStorage.getItem("StaffToken");
     const headers = { Authorization: `Bearer ${token}` };
@@ -88,7 +77,7 @@ const AllAppointments = () => {
     };
 
     useEffect(() => { fetchData(); }, []);
-    useEffect(() => { setPage(1); }, [search, filterStatus]);
+    useEffect(() => { setPage(1); }, [search, filterStatus, globalSearch]);
 
     const handleComplete = async (appt) => {
         const confirm = await Swal.fire({
@@ -119,11 +108,18 @@ const AllAppointments = () => {
 
     const filtered = appointments.filter(a => {
         const matchStatus = filterStatus === "ALL" || a.appointment_status === filterStatus;
-        const q = search.toLowerCase();
+        const q = (globalSearch || search).trim().toLowerCase();
+        if (!q) return matchStatus;
         return matchStatus && (
             (a.patient_id?.patient_name || "").toLowerCase().includes(q) ||
             (a.patient_id?.patient_email || "").toLowerCase().includes(q) ||
-            (a.patient_id?.patient_phone || "").includes(q)
+            (a.patient_id?.patient_phone || "").includes(q) ||
+            (a.doctor_id?.name || "").toLowerCase().includes(q) ||
+            (a.doctor_id?.specialization || "").toLowerCase().includes(q) ||
+            (a.appointment_date || "").includes(q) ||
+            (a.start_time || "").toLowerCase().includes(q) ||
+            (a.appointment_status || "").toLowerCase().includes(q) ||
+            (a.token_number ? String(a.token_number) : "").includes(q)
         );
     });
 

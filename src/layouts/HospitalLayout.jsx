@@ -6,6 +6,7 @@ import HospitalSidebar from "../components/Hospital/HospitalSidebar";
 
 const HospitalLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState("");
 
   return (
     <div className="flex">
@@ -17,10 +18,10 @@ const HospitalLayout = () => {
       <div className="flex-1">
 
         {/* Header with Toggle Button */}
-        <HospitalHeader isOpen={isOpen} setIsOpen={setIsOpen} />
+        <HospitalHeader isOpen={isOpen} setIsOpen={setIsOpen} onSearch={setGlobalSearch} />
 
         <div className="p-6">
-          <Outlet />
+          <Outlet context={{ globalSearch }} />
         </div>
         
         {/* Footer */}
